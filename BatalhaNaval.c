@@ -210,9 +210,26 @@ void init_boat(Boat *b, char type, Position xy, char dir)
  **/
 int check_free(int n, int m, Boat *boat, char board[n][m])
 {
-   //Implementar
+   int d=1;
 
-   return -1;
+   for(int i=0;i<n;i++)
+   {
+       for(int j=0;j<m;j++)
+       {
+           if(boat->afloat==1)
+           {
+               if(board[i][j]->boats[B].afloat==1)
+               {
+                   d=0;
+                   break;
+               }
+               else
+               {
+                   d=1;
+               }
+           }
+       }
+   }
 }
 
 /** 
