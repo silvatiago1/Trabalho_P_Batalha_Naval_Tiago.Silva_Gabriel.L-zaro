@@ -143,7 +143,7 @@ void print_board(int n, int m, char board[n][m], int flag)
 int typeToSize(char type)
 {
     int tSize;
-    printf("Escolha o tipo do barco que pretende:\n\tP-> Porta-aviões\n\tN-> Navios-tanque\n\tC-> Contratorpedeiros\n\tS-> Submarinos\n");
+
     scanf("%c", &type);
     switch (type)
     {
@@ -297,7 +297,8 @@ int main(void)
     Boat bt;
     init_board(N, M, &brd);
     print_board(N, M, brd.board, 1);
-    bt.tSize = typeToSize(bt.tSize);
+    bt.tSize = typeToSize(bt.type);
+    printf("%d",bt.tSize);
 
     /**Exemplo de uso da print_board e da place_boat**/
     /**Precisa de as implementar primeiro**/
