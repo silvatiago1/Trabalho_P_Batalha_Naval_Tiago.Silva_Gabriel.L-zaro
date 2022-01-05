@@ -143,8 +143,6 @@ void print_board(int n, int m, char board[n][m], int flag)
 int typeToSize(char type)
 {
     int tSize;
-
-    scanf("%c", &type);
     switch (type)
     {
     case 'P':
@@ -188,7 +186,7 @@ int typeToSize(char type)
  **/
 void init_boat(Boat *b, char type, Position xy, char dir)
 {
-    //Implementar
+
 }
 
 
@@ -218,7 +216,7 @@ int check_free(int n, int m, Boat *boat, char board[n][m])
        {
            if(boat->afloat==1)
            {
-               if(board[i][j]->boats[B].afloat==1)
+               /*if(board[i][j] -> boats[B].afloat==1)
                {
                    d=0;
                    break;
@@ -226,10 +224,11 @@ int check_free(int n, int m, Boat *boat, char board[n][m])
                else
                {
                    d=1;
-               }
+               }**/
            }
        }
    }
+   return d;
 }
 
 /** 
@@ -315,7 +314,7 @@ int main(void)
     init_board(N, M, &brd);
     print_board(N, M, brd.board, 1);
     bt.tSize = typeToSize(bt.type);
-    printf("%d",bt.tSize);
+    
 
     /**Exemplo de uso da print_board e da place_boat**/
     /**Precisa de as implementar primeiro**/
