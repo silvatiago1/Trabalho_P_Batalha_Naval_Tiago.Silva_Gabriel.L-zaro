@@ -186,7 +186,35 @@ int typeToSize(char type)
  **/
 void init_boat(Boat *b, char type, Position xy, char dir)
 {
+    printf("Digite qual a direção do barco\n\t H-> Horizontal\n\t V-> Vertical\n");
+    scanf("%c", &dir);
+    switch (type)
+    {
+    case 'P':
+        b->afloat=5;
+        
+        if(dir = 'H')
+        {
+            for()
+            {
+                
+            }
+        }
+        else{
+            for(){
 
+            }
+        }
+        break;
+    case 'N':
+        b->afloat=4;
+        break;
+    case 'C':
+        b->afloat=3;
+        break;
+    case 'S':
+        b->afloat=2;
+        break;
 }
 
 
@@ -309,12 +337,13 @@ int target(int x, int y, Board *board)
 //int colocaNavio()
 int main(void)
 {
+    //int dir;
     Board brd;
     Boat bt;
     init_board(N, M, &brd);
     print_board(N, M, brd.board, 1);
     bt.tSize = typeToSize(bt.type);
-    
+    //init_boat(&bt, bt.type, , dir);
 
     /**Exemplo de uso da print_board e da place_boat**/
     /**Precisa de as implementar primeiro**/
