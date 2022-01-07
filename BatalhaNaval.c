@@ -188,22 +188,20 @@ void init_boat(Boat *b, char type, Position xy, char dir)
 {
     printf("Digite qual a direção do barco\n\t H-> Horizontal\n\t V-> Vertical\n");
     scanf("%c", &dir);
+    printf("Indique onde pretende colocar o seu barco:\n\tLinha: ");
+    scanf("%d", &xy.x);
+    printf("\n\tColuna: ");
+    scanf("%d", &xy.y);
     switch (type)
     {
     case 'P':
         b->afloat=5;
-        
         if(dir = 'H')
         {
-            for()
-            {
-                
-            }
+            b->coord == (1, (xy.x, xy.y)), (1, (xy.x, xy.y++)), (1, (xy.x, xy.y++)), (1, (xy.x, xy.y++)), (1, (xy.x, xy.y++));
         }
         else{
-            for(){
-
-            }
+            b->coord == (1, (xy.x, xy.y)), (1, (xy.x++, xy.y)), (1, (xy.x++, xy.y)), (1, (xy.x++, xy.y)), (1, (xy.x++, xy.y));
         }
         break;
     case 'N':
