@@ -409,14 +409,18 @@ int main(void)
 
     printf("Qual é o tipo de barco que prentede colocar?\n");
     scanf("%c",&bt.type);
+
     bt.tSize = typeToSize(bt.type);
-    
+
     printf("Digite qual a direção do barco\n\t H-> Horizontal\n\t V-> Vertical\n");
-    scanf("%c", &dir);
-    printf("Indique onde pretende colocar o seu barco:\n\tLinha: ");
+    scanf(" %c", &dir);
+
+    printf("Indique onde pretende colocar o seu barco:\n\tLinha:");
     scanf("%d", &xy.x);
+
     printf("\n\tColuna: ");
     scanf("%d", &xy.y);
+
     init_boat(&bt, bt.type,xy, dir);
     check_free(N, M, &bt, brd.board);
 
