@@ -114,7 +114,7 @@ void print_board(int n, int m, char board[n][m], int flag)
         {
             for (int k = 0; k < n; k++)
             {
-                printf("  ");
+                printf("  |");
             }
             printf("\n");
         }
@@ -302,7 +302,7 @@ void init_boat(Boat *b, char type, Position xy, char dir)
  **/
 int check_free(int n, int m, Boat *boat, char board[n][m])
 {
-   int d;
+   int check;
 
    for(int i=0;i<n;i++)
    {
@@ -310,15 +310,15 @@ int check_free(int n, int m, Boat *boat, char board[n][m])
        {
            if(board[i][j] == ' ' && i==boat->coord->pos.x&&j==boat->coord->pos.y)
            {
-               d=1;
+               check=1;
            }
            else
            {
-               d=0;
+               check=0;
            }
        }
    }
-   return d;
+   return check;
 }
 
 /** 
@@ -341,7 +341,28 @@ int check_free(int n, int m, Boat *boat, char board[n][m])
  **/
 int place_boat(int x1, int y1, int dir, char type, Board *board)
 {
-    //Implementar
+    int typesize=typeToSize(type);
+    
+    if(dir=='H')
+    {
+        for (int j = y1; j<y1+1; j++)
+        {
+            for (int i = x1; i < x1+typesize; i++)
+            {
+                board->board[i][j]=type;
+            }
+        }
+    }
+    else
+    {
+        for (int i = x1; i<x1+1; i++)
+        {
+            for (int j = y1; j < y1+typesize; j++)
+            {
+                board->board[j][i]=type;
+            }
+        }
+    }
 
     return 1;
 }
@@ -423,6 +444,10 @@ int main(void)
 
     init_boat(&bt, bt.type,xy, dir);
     check_free(N, M, &bt, brd.board);
+
+    place_boat(xy.x,xy.y,dir,bt.type,&brd);
+
+    print_board(N, M, brd.board, 1);
 
     /**Exemplo de uso da print_board e da place_boat**/
     /**Precisa de as implementar primeiro**/
