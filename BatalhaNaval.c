@@ -239,23 +239,19 @@ void init_boat(Boat *b, char type, Position xy, char dir)
  **/
 int check_free(int n, int m, Boat *boat, char board[n][m])
 {
-   int d=1;
+   int d;
 
    for(int i=0;i<n;i++)
    {
        for(int j=0;j<m;j++)
        {
-           if(boat->afloat==1)
+           if(board[i][j] == ' ' && i==boat->coord->pos.x&&j==boat->coord->pos.y)
            {
-               /*if(board[i][j] -> boats[B].afloat==1)
-               {
-                   d=0;
-                   break;
-               }
-               else
-               {
-                   d=1;
-               }**/
+               d=1;
+           }
+           else
+           {
+               d=0;
            }
        }
    }
@@ -359,6 +355,7 @@ int main(void)
     printf("\n\tColuna: ");
     scanf("%d", &xy.y);
     init_boat(&bt, bt.type,xy, dir);
+    check_free(N, M, &bt, brd.board);
 
     /**Exemplo de uso da print_board e da place_boat**/
     /**Precisa de as implementar primeiro**/
