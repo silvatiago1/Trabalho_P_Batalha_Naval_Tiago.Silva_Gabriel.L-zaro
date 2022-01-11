@@ -186,23 +186,28 @@ int typeToSize(char type)
  **/
 void init_boat(Boat *b, char type, Position xy, char dir)
 {
-    printf("Digite qual a direção do barco\n\t H-> Horizontal\n\t V-> Vertical\n");
-    scanf("%c", &dir);
-    printf("Indique onde pretende colocar o seu barco:\n\tLinha: ");
-    scanf("%d", &xy.x);
-    printf("\n\tColuna: ");
-    scanf("%d", &xy.y);
     switch (type)
     {
     case 'P':
         b->afloat=5;
-        if(dir = 'H')
+        if(dir == 'H')
         {
-            b->coord == (1, (xy.x, xy.y)), (1, (xy.x, xy.y++)), (1, (xy.x, xy.y++)), (1, (xy.x, xy.y++)), (1, (xy.x, xy.y++));
+            for(int i=0;i<5;i++)
+            {
+                b->coord->pos.x=xy.x;
+                b->coord->pos.y=xy.y;
+                b->coord->afloat=1;
+                xy.y++;
+            }
         }
         else{
-            b->coord == (1, (xy.x, xy.y)), (1, (xy.x++, xy.y)), (1, (xy.x++, xy.y)), (1, (xy.x++, xy.y)), (1, (xy.x++, xy.y));
-        }
+            for(int i=0;i<5;i++)
+            {
+                b->coord->pos.x=xy.x;
+                b->coord->pos.y=xy.y;
+                b->coord->afloat=1;
+                xy.x++;
+            }
         break;
     case 'N':
         b->afloat=4;
@@ -297,12 +302,12 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
  *   'I' se a coordenada for inválida.
  * 
  **/
-char check_sink(int x, int y, Board *board)
+/*char check_sink(int x, int y, Board *board)
 {
     //Implementar
 
     return 'O';
-}
+}*/
 
 /**
  * Function: target
@@ -335,13 +340,25 @@ int target(int x, int y, Board *board)
 //int colocaNavio()
 int main(void)
 {
-    //int dir;
+    char dir;
+    
     Board brd;
     Boat bt;
+    Position xy;
     init_board(N, M, &brd);
     print_board(N, M, brd.board, 1);
+
+    printf("Qual é o tipo de barco que prentede colocar?\n");
+    scanf("%c",&bt.type);
     bt.tSize = typeToSize(bt.type);
-    //init_boat(&bt, bt.type, , dir);
+    
+    printf("Digite qual a direção do barco\n\t H-> Horizontal\n\t V-> Vertical\n");
+    scanf("%c", &dir);
+    printf("Indique onde pretende colocar o seu barco:\n\tLinha: ");
+    scanf("%d", &xy.x);
+    printf("\n\tColuna: ");
+    scanf("%d", &xy.y);
+    init_boat(&bt, bt.type,xy, dir);
 
     /**Exemplo de uso da print_board e da place_boat**/
     /**Precisa de as implementar primeiro**/
