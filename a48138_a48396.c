@@ -209,16 +209,76 @@ void init_boat(Boat *b, char type, Position xy, char dir)
                 b->coord->afloat=1;
                 xy.x++;
             }
-        }    
+        }
         break;
     case 'N':
         b->afloat=4;
+        if(dir == 'H')
+        {
+            for(int i=0;i<5;i++)
+            {
+                b->coord->pos.x=xy.x;
+                b->coord->pos.y=xy.y;
+                b->coord->afloat=1;
+                xy.y++;
+            }
+        }
+        else
+        {
+            for(int i=0;i<5;i++)
+            {
+                b->coord->pos.x=xy.x;
+                b->coord->pos.y=xy.y;
+                b->coord->afloat=1;
+                xy.x++;
+            }
+        }
         break;
     case 'C':
         b->afloat=3;
+        if(dir == 'H')
+        {
+            for(int i=0;i<5;i++)
+            {
+                b->coord->pos.x=xy.x;
+                b->coord->pos.y=xy.y;
+                b->coord->afloat=1;
+                xy.y++;
+            }
+        }
+        else
+        {
+            for(int i=0;i<5;i++)
+            {
+                b->coord->pos.x=xy.x;
+                b->coord->pos.y=xy.y;
+                b->coord->afloat=1;
+                xy.x++;
+            }
+        }
         break;
     case 'S':
         b->afloat=2;
+        if(dir == 'H')
+        {
+            for(int i=0;i<5;i++)
+            {
+                b->coord->pos.x=xy.x;
+                b->coord->pos.y=xy.y;
+                b->coord->afloat=1;
+                xy.y++;
+            }
+        }
+        else
+        {
+            for(int i=0;i<5;i++)
+            {
+                b->coord->pos.x=xy.x;
+                b->coord->pos.y=xy.y;
+                b->coord->afloat=1;
+                xy.x++;
+            }
+        }
         break;
     }
 }
