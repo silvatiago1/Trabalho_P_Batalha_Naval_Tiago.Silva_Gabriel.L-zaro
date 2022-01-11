@@ -215,7 +215,7 @@ void init_boat(Boat *b, char type, Position xy, char dir)
         b->afloat=4;
         if(dir == 'H')
         {
-            for(int i=0;i<5;i++)
+            for(int i=0;i<4;i++)
             {
                 b->coord->pos.x=xy.x;
                 b->coord->pos.y=xy.y;
@@ -225,7 +225,7 @@ void init_boat(Boat *b, char type, Position xy, char dir)
         }
         else
         {
-            for(int i=0;i<5;i++)
+            for(int i=0;i<4;i++)
             {
                 b->coord->pos.x=xy.x;
                 b->coord->pos.y=xy.y;
@@ -238,7 +238,7 @@ void init_boat(Boat *b, char type, Position xy, char dir)
         b->afloat=3;
         if(dir == 'H')
         {
-            for(int i=0;i<5;i++)
+            for(int i=0;i<3;i++)
             {
                 b->coord->pos.x=xy.x;
                 b->coord->pos.y=xy.y;
@@ -248,7 +248,7 @@ void init_boat(Boat *b, char type, Position xy, char dir)
         }
         else
         {
-            for(int i=0;i<5;i++)
+            for(int i=0;i<3;i++)
             {
                 b->coord->pos.x=xy.x;
                 b->coord->pos.y=xy.y;
@@ -261,7 +261,7 @@ void init_boat(Boat *b, char type, Position xy, char dir)
         b->afloat=2;
         if(dir == 'H')
         {
-            for(int i=0;i<5;i++)
+            for(int i=0;i<2;i++)
             {
                 b->coord->pos.x=xy.x;
                 b->coord->pos.y=xy.y;
@@ -271,7 +271,7 @@ void init_boat(Boat *b, char type, Position xy, char dir)
         }
         else
         {
-            for(int i=0;i<5;i++)
+            for(int i=0;i<2;i++)
             {
                 b->coord->pos.x=xy.x;
                 b->coord->pos.y=xy.y;
@@ -400,7 +400,7 @@ int target(int x, int y, Board *board)
 int main(void)
 {
     char dir;
-    
+
     Board brd;
     Boat bt;
     Position xy;
@@ -412,11 +412,14 @@ int main(void)
     bt.tSize = typeToSize(bt.type);
     
     printf("Digite qual a direção do barco\n\t H-> Horizontal\n\t V-> Vertical\n");
-    scanf("%c", &dir);
+    scanf(" %c", &dir);
+
     printf("Indique onde pretende colocar o seu barco:\n\tLinha: ");
     scanf("%d", &xy.x);
+
     printf("\n\tColuna: ");
     scanf("%d", &xy.y);
+
     init_boat(&bt, bt.type,xy, dir);
     check_free(N, M, &bt, brd.board);
 
