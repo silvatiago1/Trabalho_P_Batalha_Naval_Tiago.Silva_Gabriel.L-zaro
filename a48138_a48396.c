@@ -409,8 +409,9 @@ int main(void)
 
     printf("Qual é o tipo de barco que prentede colocar?\n");
     scanf("%c",&bt.type);
+
     bt.tSize = typeToSize(bt.type);
-    
+
     printf("Digite qual a direção do barco\n\t H-> Horizontal\n\t V-> Vertical\n");
     scanf(" %c", &dir);
 
