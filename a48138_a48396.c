@@ -114,7 +114,7 @@ void print_board(int n, int m, char board[n][m], int flag)
         {
             for (int k = 0; k < n; k++)
             {
-                printf("  |");
+                printf("    |");
             }
             printf("\n");
         }
@@ -195,7 +195,9 @@ void init_boat(Boat *b, char type, Position xy, char dir)
             for(int i=0;i<5;i++)
             {
                 b->coord->pos.x=xy.x;
+                printf("%d",b->coord->pos.x=xy.x);
                 b->coord->pos.y=xy.y;
+                printf("%d\n",b->coord->pos.x=xy.y);
                 b->coord->afloat=1;
                 xy.y++;
             }
@@ -302,23 +304,23 @@ void init_boat(Boat *b, char type, Position xy, char dir)
  **/
 int check_free(int n, int m, Boat *boat, char board[n][m])
 {
-   int check;
-
-   for(int i=0;i<n;i++)
-   {
-       for(int j=0;j<m;j++)
-       {
-           if(board[i][j] == ' ' && i==boat->coord->pos.x&&j==boat->coord->pos.y)
-           {
-               check=1;
-           }
-           else
-           {
-               check=0;
-           }
-       }
-   }
-   return check;
+    int check;
+    printf("oi%d\n", boat->coord->pos.x);
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(board[i][j] == ' ' && i==boat->coord->pos.x && j==boat->coord->pos.y)
+            {
+                check=1;
+            }
+            else
+            {
+                check=0;
+            }
+        }
+    }
+    return check;
 }
 
 /** 
@@ -342,30 +344,43 @@ int check_free(int n, int m, Boat *boat, char board[n][m])
 int place_boat(int x1, int y1, int dir, char type, Board *board)
 {
     int typesize=typeToSize(type);
+    int ret;
+    int numboat=board->numBoats;
+
+    int check=check_free(N,M,board->boats,board->board);
+    printf("%i",check);
     
-    if(dir==0)
+    if(check==1)
     {
-         for (int i = x1; i<x1+1; i++)
+        if(dir==0)
         {
-            for (int j = y1; j < y1+typesize; j++)
+            for (int i = x1; i<x1+1; i++)
             {
-                //check_free();
-                board->board[i][j]=type;
+                for (int j = y1; j < y1+typesize; j++)
+                {
+                    board->board[i][j]=type;
+                }
             }
         }
+        else
+        {    
+            for (int i = y1; i<y1+1; i++)
+            {
+                for (int j = x1; j < x1+typesize; j++)
+                {
+                    board->board[j][i]=type;
+                }
+            }
+        }
+        ret=1;
     }
     else
-    {    
-        for (int i = y1; i<y1+1; i++)
-        {
-            for (int j = x1; j < x1+typesize; j++)
-            {
-                board->board[j][i]=type;
-            }
-        }
+    {
+        ret=0;
+        printf("Essa posição já está ocupada,esolha outra!\n");
     }
 
-    return 1;
+    return ret;
 }
 
 /**
@@ -426,7 +441,7 @@ int main(void)
 
     Board brd;
     Boat bt;
-    Position xy;
+    StateCoord xy;
     init_board(N, M, &brd);
     print_board(N, M, brd.board, 1);
 
@@ -439,7 +454,7 @@ int main(void)
     scanf(" %c", &dir);
 
     printf("Indique onde pretende colocar o seu barco:\n\tLinha: ");
-    scanf("%d", &xy.x);
+    scanf("%d", &xy.pos.x);
 
     if(dir=='H')
     {
@@ -451,12 +466,15 @@ int main(void)
     }
 
     printf("\n\tColuna: ");
-    scanf("%d", &xy.y);
+    scanf("%d", &xy.pos.y);
 
-    init_boat(&bt, bt.type,xy, dir);
-    check_free(N, M, &bt, brd.board);
+    printf("%d\n",xy.pos.y);
 
-    place_boat(xy.x,xy.y,horv,bt.type,&brd);
+    init_boat(&brd.boats[0], bt.type,xy.pos, dir);
+
+    check_free(N, M, &brd.boats[0], brd.board);
+
+    place_boat(xy.pos.x,xy.pos.y,horv,brd.boats[0].type,&brd);
 
     print_board(N, M, brd.board, 1);
 
