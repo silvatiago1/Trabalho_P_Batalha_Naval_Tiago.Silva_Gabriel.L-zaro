@@ -194,11 +194,11 @@ void init_boat(Boat *b, char type, Position xy, char dir)
         {
             for(int i=0;i<5;i++)
             {
-                b->coord->pos.x=xy.x;
+                b->coord[i].pos.x=xy.x;
                 printf("%d",b->coord->pos.x=xy.x);
-                b->coord->pos.y=xy.y;
+                b->coord[i].pos.y=xy.y;
                 printf("%d\n",b->coord->pos.x=xy.y);
-                b->coord->afloat=1;
+                b->coord[i].afloat=1;
                 xy.y++;
             }
         }
@@ -206,9 +206,9 @@ void init_boat(Boat *b, char type, Position xy, char dir)
         {
             for(int i=0;i<5;i++)
             {
-                b->coord->pos.x=xy.x;
-                b->coord->pos.y=xy.y;
-                b->coord->afloat=1;
+                b->coord[i].pos.x=xy.x;
+                b->coord[i].pos.y=xy.y;
+                b->coord[i].afloat=1;
                 xy.x++;
             }
         }
@@ -219,9 +219,9 @@ void init_boat(Boat *b, char type, Position xy, char dir)
         {
             for(int i=0;i<4;i++)
             {
-                b->coord->pos.x=xy.x;
-                b->coord->pos.y=xy.y;
-                b->coord->afloat=1;
+                b->coord[i].pos.x=xy.x;
+                b->coord[i].pos.y=xy.y;
+                b->coord[i].afloat=1;
                 xy.y++;
             }
         }
@@ -229,9 +229,9 @@ void init_boat(Boat *b, char type, Position xy, char dir)
         {
             for(int i=0;i<4;i++)
             {
-                b->coord->pos.x=xy.x;
-                b->coord->pos.y=xy.y;
-                b->coord->afloat=1;
+                b->coord[i].pos.x=xy.y;
+                b->coord[i].pos.y=xy.x;
+                b->coord[i].afloat=1;
                 xy.x++;
             }
         }
@@ -242,9 +242,9 @@ void init_boat(Boat *b, char type, Position xy, char dir)
         {
             for(int i=0;i<3;i++)
             {
-                b->coord->pos.x=xy.x;
-                b->coord->pos.y=xy.y;
-                b->coord->afloat=1;
+                b->coord[i].pos.x=xy.x;
+                b->coord[i].pos.y=xy.y;
+                b->coord[i].afloat=1;
                 xy.y++;
             }
         }
@@ -252,9 +252,9 @@ void init_boat(Boat *b, char type, Position xy, char dir)
         {
             for(int i=0;i<3;i++)
             {
-                b->coord->pos.x=xy.x;
-                b->coord->pos.y=xy.y;
-                b->coord->afloat=1;
+                b->coord[i].pos.x=xy.x;
+                b->coord[i].pos.y=xy.y;
+                b->coord[i].afloat=1;
                 xy.x++;
             }
         }
@@ -265,9 +265,9 @@ void init_boat(Boat *b, char type, Position xy, char dir)
         {
             for(int i=0;i<2;i++)
             {
-                b->coord->pos.x=xy.x;
-                b->coord->pos.y=xy.y;
-                b->coord->afloat=1;
+                b->coord[i].pos.x=xy.x;
+                b->coord[i].pos.y=xy.y;
+                b->coord[i].afloat=1;
                 xy.y++;
             }
         }
@@ -275,9 +275,9 @@ void init_boat(Boat *b, char type, Position xy, char dir)
         {
             for(int i=0;i<2;i++)
             {
-                b->coord->pos.x=xy.x;
-                b->coord->pos.y=xy.y;
-                b->coord->afloat=1;
+                b->coord[i].pos.x=xy.x;
+                b->coord[i].pos.y=xy.y;
+                b->coord[i].afloat=1;
                 xy.x++;
             }
         }
@@ -304,22 +304,16 @@ void init_boat(Boat *b, char type, Position xy, char dir)
  **/
 int check_free(int n, int m, Boat *boat, char board[n][m])
 {
-    int check;
+    int check=1;
     printf("oi%d\n", boat->coord->pos.x);
-    for(int i=0;i<n;i++)
-    {
-        for(int j=0;j<m;j++)
+        for (int i =0; i < boat->tSize; i++)
         {
-            if(board[i][j] == ' ' && i==boat->coord->pos.x && j==boat->coord->pos.y)
-            {
-                check=1;
-            }
-            else
+            if(board[boat->coord[i].pos.x][boat->coord[i].pos.y] !=' ')
             {
                 check=0;
+                break;
             }
         }
-    }
     return check;
 }
 
@@ -345,7 +339,7 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
 {
     int typesize=typeToSize(type);
     int ret;
-    int numboat=board->numBoats;
+    //int numboat=board->numBoats;
 
     int check=check_free(N,M,board->boats,board->board);
     printf("%i",check);
