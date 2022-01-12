@@ -343,21 +343,22 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
 {
     int typesize=typeToSize(type);
     
-    if(dir=='H')
+    if(dir==0)
     {
-        for (int j = y1; j<y1+1; j++)
+         for (int i = x1; i<x1+1; i++)
         {
-            for (int i = x1; i < x1+typesize; i++)
+            for (int j = y1; j < y1+typesize; j++)
             {
+                //check_free();
                 board->board[i][j]=type;
             }
         }
     }
     else
-    {
-        for (int i = x1; i<x1+1; i++)
+    {    
+        for (int i = y1; i<y1+1; i++)
         {
-            for (int j = y1; j < y1+typesize; j++)
+            for (int j = x1; j < x1+typesize; j++)
             {
                 board->board[j][i]=type;
             }
@@ -421,6 +422,7 @@ int target(int x, int y, Board *board)
 int main(void)
 {
     char dir;
+    int horv;
 
     Board brd;
     Boat bt;
@@ -439,13 +441,22 @@ int main(void)
     printf("Indique onde pretende colocar o seu barco:\n\tLinha: ");
     scanf("%d", &xy.x);
 
+    if(dir=='H')
+    {
+        horv=0;
+    }
+    else
+    {
+        horv=1;
+    }
+
     printf("\n\tColuna: ");
     scanf("%d", &xy.y);
 
     init_boat(&bt, bt.type,xy, dir);
     check_free(N, M, &bt, brd.board);
 
-    place_boat(xy.x,xy.y,dir,bt.type,&brd);
+    place_boat(xy.x,xy.y,horv,bt.type,&brd);
 
     print_board(N, M, brd.board, 1);
 
