@@ -265,30 +265,39 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
     {
         if (dir == 'H')
         {
-            for (int i = 0; i < 1; i++)
+            for (int j = y1; j < y1 + typesize; j++)
             {
-                for (int j = y1; j < y1 + typesize; j++)
-                {
-                    board->board[i][j] = type;
-                }
+                board->board[x1][j] = type;
             }
         }
         else
         {
-            for (int i = 0; i < 1; i++)
+            for (int j = x1; j < x1 + typesize; j++)
             {
-                for (int j = x1; j < x1 + typesize; j++)
-                {
-                    board->board[j][i] = type;
-                }
+                board->board[j][y1] = type;
             }
         }
-        ret = 1;
+        ret = 0;
+        board->numBoatsAfloat++;
+        board->numBoats++;
     }
     else
     {
-        ret = 0;
+        ret = -1;
         printf("Essa posição já está ocupada,esolha outra!\n");
+    }
+
+    //Falta um return (-2)
+
+    if(dir != 'H' || dir != 'V')
+    {
+        printf("Escolha H ou V\n");
+        ret = -3;
+    }
+
+    if (typesize == -1)
+    {
+        ret = -4;
     }
 
     return ret;
@@ -311,17 +320,7 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
  **/
 char check_sink(int x, int y, Board *board)
 {
-    char ret;
-    printf("Digite a posição que pretende atacar:\n");
-    printf("Linha:");
-    scanf("%d", &x);
-    printf("Coluna:");
-    scanf("%d", &y);
-    if (x == board->boats->coord[x].pos.x && y == board->boats->coord[y].pos.y)
-    {
-        
-    }
-
+    
     return '0';
 }
 
@@ -411,6 +410,12 @@ int main(void)
     place_boat(xy.pos.x, xy.pos.y, dir, bt.type, &brd);
 
     print_board(N, M, brd.board, 1);
+
+    printf("Digite a posição que pretende atacar:\n");
+    printf("Linha:");
+    scanf("%d", &x);
+    printf("Coluna:");
+    scanf("%d", &y);
 
     check_sink(x, y, &brd);
 
