@@ -348,9 +348,32 @@ char check_sink(int x, int y, Board *board)
  **/
 int target(int x, int y, Board *board)
 {
-    //Implementar
-
-    return -3;
+    int hit=-1;
+    
+    for(int i=0;i<board->numBoatsAfloat;i++)
+    {
+        if(x == board->boats->coord[x].pos.x && y == board->boats->coord[y].pos.y&&board->boats->coord[i].afloat==1)
+        {
+            char temp=check_sink(x,y,board->board);
+            if(temp=='I')
+            {
+                hit=-2;
+            }
+            else
+            {
+                board->boats->coord[i].afloat=0;
+                if(temp=='F')
+                {
+                    hit=1;
+                }
+                else
+                {
+                    hit=typeToSize(board->boats->type);
+                }
+            }
+        }
+    }
+    return hit;
 }
 
 //int colocaNavio()
