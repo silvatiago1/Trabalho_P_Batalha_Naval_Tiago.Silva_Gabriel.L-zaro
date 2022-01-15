@@ -2,7 +2,7 @@
  * @autores:
  * Nome: Gabriel Lázaro     Número de Aluno: 48396
  * Nome: Tiago Silva        Número de Aluno: 48138
- **/ 
+ **/
 
 #include <stdio.h>
 
@@ -20,35 +20,33 @@ typedef struct
 /**Associa cada coordenada do barco com um estado**/
 typedef struct
 {
-    int afloat;        //0 indica que está afundada, 1 indica que não
-    Position pos;      //Coordenada
+    int afloat;   //0 indica que está afundada, 1 indica que não
+    Position pos; //Coordenada
 } StateCoord;
 
 /**Representa um barco**/
 typedef struct
 {
-    int afloat;        //Posições que ainda não foram afundadas
-    int tSize;         //Tamanho do tipo do barco 
+    int afloat;          //Posições que ainda não foram afundadas
+    int tSize;           //Tamanho do tipo do barco
     StateCoord coord[5]; //O barco maior tem 5 coordenadas, usando o tSize garantimos que acedemos apenas às existentes
-    char type;         //Caracter que representa o tipo do barco
+    char type;           //Caracter que representa o tipo do barco
 } Boat;
 
 /**Representa um tabuleiro**/
 typedef struct
 {
     int numBoatsAfloat; //Número de barcos não afundados
-    int numBoats; //Número de barcos que foram colocados
-    Boat boats[B]; //Array de barcos. Cada barco é do tipo Boat.
-    char board[N][M]; //Array que contém a informação de cada posição do tabuleiro
+    int numBoats;       //Número de barcos que foram colocados
+    Boat boats[B];      //Array de barcos. Cada barco é do tipo Boat.
+    char board[N][M];   //Array que contém a informação de cada posição do tabuleiro
 } Board;
-
 
 /**
  * NOTA IMPORTANTE: 
  * Não pode alterar nenhuma das assinaturas das funções abaixo. 
  * Este ficheiro tem de ser considerado em conjunção com o enunciado do TP2.
  **/
-
 
 /**
  * Function: init_board
@@ -69,7 +67,7 @@ void init_board(int n, int m, Board *b)
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < m; j++)
-        { 
+        {
             b->board[i][j] = ' ';
         }
     }
@@ -128,7 +126,6 @@ void print_board(int n, int m, char board[n][m], int flag)
     }
 }
 
-
 /** 
  * Function: typeToSize
  * 
@@ -186,125 +183,23 @@ int typeToSize(char type)
  **/
 void init_boat(Boat *b, char type, Position xy, char dir)
 {
-    b->afloat=typeToSize(type);
-    b->tSize=b->afloat;
-    b->type=type;
-    for(int i=0;i<b->tSize;i++)
+    b->afloat = typeToSize(type);
+    b->tSize = b->afloat;
+    b->type = type;
+    for (int i = 0; i < b->tSize; i++)
     {
-        if(dir == 'H')
+        if (dir == 'H')
         {
-            b->coord[i].pos.x=xy.x;
-            b->coord[i].pos.y=xy.y+i;
+            b->coord[i].pos.x = xy.x;
+            b->coord[i].pos.y = xy.y + i;
         }
         else
         {
-            b->coord[i].pos.x=xy.x+i;
-            b->coord[i].pos.y=xy.y;
+            b->coord[i].pos.x = xy.x + i;
+            b->coord[i].pos.y = xy.y;
         }
     }
-
-
 }
-    /*
-    switch (type)
-    {
-    case 'P':
-        b->afloat=5;
-        if(dir == 'H')
-        {
-            for(int i=0;i<5;i++)
-            {
-                b->coord[i].pos.x=xy.x;
-                printf("%d",b->coord->pos.x=xy.x);
-                b->coord[i].pos.y=xy.y;
-                printf("%d\n",b->coord->pos.x=xy.y);
-                b->coord[i].afloat=1;
-                xy.y++;
-            }
-        }
-        else
-        {
-            for(int i=0;i<5;i++)
-            {
-                b->coord[i].pos.x=xy.x;
-                b->coord[i].pos.y=xy.y;
-                b->coord[i].afloat=1;
-                xy.x++;
-            }
-        }
-        break;
-    case 'N':
-        b->afloat=4;
-        if(dir == 'H')
-        {
-            for(int i=0;i<4;i++)
-            {
-                b->coord[i].pos.x=xy.x;
-                b->coord[i].pos.y=xy.y;
-                b->coord[i].afloat=1;
-                xy.y++;
-            }
-        }
-        else
-        {
-            for(int i=0;i<4;i++)
-            {
-                b->coord[i].pos.x=xy.y;
-                b->coord[i].pos.y=xy.x;
-                b->coord[i].afloat=1;
-                xy.x++;
-            }
-        }
-        break;
-    case 'C':
-        b->afloat=3;
-        if(dir == 'H')
-        {
-            for(int i=0;i<3;i++)
-            {
-                b->coord[i].pos.x=xy.x;
-                b->coord[i].pos.y=xy.y;
-                b->coord[i].afloat=1;
-                xy.y++;
-            }
-        }
-        else
-        {
-            for(int i=0;i<3;i++)
-            {
-                b->coord[i].pos.x=xy.x;
-                b->coord[i].pos.y=xy.y;
-                b->coord[i].afloat=1;
-                xy.x++;
-            }
-        }
-        break;
-    case 'S':
-        b->afloat=2;
-        if(dir == 'H')
-        {
-            for(int i=0;i<2;i++)
-            {
-                b->coord[i].pos.x=xy.x;
-                b->coord[i].pos.y=xy.y;
-                b->coord[i].afloat=1;
-                xy.y++;
-            }
-        }
-        else
-        {
-            for(int i=0;i<2;i++)
-            {
-                b->coord[i].pos.x=xy.x;
-                b->coord[i].pos.y=xy.y;
-                b->coord[i].afloat=1;
-                xy.x++;
-            }
-        }
-        break;
-    }
-}*/
-
 
 /**
  * Function: check_free
@@ -324,16 +219,15 @@ void init_boat(Boat *b, char type, Position xy, char dir)
  **/
 int check_free(int n, int m, Boat *boat, char board[n][m])
 {
-    int check=1;
-    //printf("oi%d\n", boat->coord->pos.x);
-        for (int i =0; i < boat->tSize; i++)
+    int check = 1;
+    for (int i = 0; i < boat->tSize; i++)
+    {
+        if (board[boat->coord[i].pos.x][boat->coord[i].pos.y] != ' ')
         {
-            if(board[boat->coord[i].pos.x][boat->coord[i].pos.y] !=' ')
-            {
-                check=0;
-                break;
-            }
+            check = 0;
+            break;
         }
+    }
     return check;
 }
 
@@ -357,44 +251,43 @@ int check_free(int n, int m, Boat *boat, char board[n][m])
  **/
 int place_boat(int x1, int y1, int dir, char type, Board *board)
 {
-    int typesize=typeToSize(type);
+    int typesize = typeToSize(type);
     int ret;
-    
-    Position temp={x1,y1};
+
+    Position temp = {x1, y1};
 
     Boat bat;
-    init_boat(&bat,type,temp,dir);
+    init_boat(&bat, type, temp, dir);
 
-    int check=check_free(N,M,&bat,board->board);
-    //printf("%i",check);
-    
-    if(check==1)
+    int check = check_free(N, M, &bat, board->board);
+
+    if (check == 1)
     {
-        if(dir=='H')
+        if (dir == 'H')
         {
-            for (int i = 0; i<1; i++)
+            for (int i = 0; i < 1; i++)
             {
-                for (int j = y1; j < y1+typesize; j++)
+                for (int j = y1; j < y1 + typesize; j++)
                 {
-                    board->board[i][j]=type;
+                    board->board[i][j] = type;
                 }
             }
         }
         else
-        {    
-            for (int i = 0; i<1; i++)
+        {
+            for (int i = 0; i < 1; i++)
             {
-                for (int j = x1; j < x1+typesize; j++)
+                for (int j = x1; j < x1 + typesize; j++)
                 {
-                    board->board[j][i]=type;
+                    board->board[j][i] = type;
                 }
             }
         }
-        ret=1;
+        ret = 1;
     }
     else
     {
-        ret=0;
+        ret = 0;
         printf("Essa posição já está ocupada,esolha outra!\n");
     }
 
@@ -404,7 +297,7 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
 /**
  * Function: check_sink
  * 
- * Verifica se ao atacar a posição (x,y) algum barco é afundado. 
+ *  * Verifica se ao atacar a posição (x,y) algum barco é afundado. 
  * 
  * x: coordenada x a atacar
  * y: coordenada y a atacar
@@ -418,9 +311,18 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
  **/
 char check_sink(int x, int y, Board *board)
 {
-    //Implementar
+    char ret;
+    printf("Digite a posição que pretende atacar:\n");
+    printf("Linha:");
+    scanf("%d", &x);
+    printf("Coluna:");
+    scanf("%d", &y);
+    if (x == board->boats->coord[x].pos.x && y == board->boats->coord[y].pos.y)
+    {
+        
+    }
 
-    return 'O';
+    return '0';
 }
 
 /**
@@ -455,6 +357,7 @@ int target(int x, int y, Board *board)
 int main(void)
 {
     char dir;
+    int x, y;
 
     Board brd;
     Boat bt;
@@ -462,8 +365,8 @@ int main(void)
     init_board(N, M, &brd);
     print_board(N, M, brd.board, 1);
 
-    printf("Qual é o tipo de barco que prentede colocar?\n");
-    scanf("%c",&bt.type);
+    printf("Qual é o tipo de barco que prentede colocar? (P/N/C/S)\n");
+    scanf("%c", &bt.type);
 
     bt.tSize = typeToSize(bt.type);
 
@@ -476,13 +379,17 @@ int main(void)
     printf("\n\tColuna: ");
     scanf("%d", &xy.pos.y);
 
-    printf("%d\n",xy.pos.y);
+    printf("%d\n", xy.pos.y);
 
     //init_boat(&bt, bt.type,xy.pos, dir);
-    
+
     //check_free(N, M, &bt, brd.board);
 
-    place_boat(xy.pos.x,xy.pos.y,dir,bt.type,&brd);
+    place_boat(xy.pos.x, xy.pos.y, dir, bt.type, &brd);
+
+    print_board(N, M, brd.board, 1);
+
+    check_sink(x, y, &brd);
 
     print_board(N, M, brd.board, 1);
 
