@@ -259,35 +259,40 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
     Boat bat;
     init_boat(&bat, type, temp, dir);
 
-    int check = check_free(N, M, &bat, board->board);
-
-    if (check == 1)
+    if(x1>N||y1>M||x1<0||y1<0)
     {
-        if (dir == 'H')
+        int check = check_free(N, M, &bat, board->board);
+
+        if (check == 1)
         {
-            for (int j = y1; j < y1 + typesize; j++)
+            if (dir == 'H')
             {
-                board->board[x1][j] = type;
+                for (int j = y1; j < y1 + typesize; j++)
+                {
+                    board->board[x1][j] = type;
+                }
             }
+            else
+            {
+                for (int j = x1; j < x1 + typesize; j++)
+                {
+                    board->board[j][y1] = type;
+                }
+            }
+            ret = 0;
+            board->numBoatsAfloat++;
+            board->numBoats++;
         }
         else
         {
-            for (int j = x1; j < x1 + typesize; j++)
-            {
-                board->board[j][y1] = type;
-            }
+            ret = -1;
+            printf("Essa posição já está ocupada,esolha outra!\n");
         }
-        ret = 0;
-        board->numBoatsAfloat++;
-        board->numBoats++;
     }
     else
     {
-        ret = -1;
-        printf("Essa posição já está ocupada,esolha outra!\n");
+        ret=-2;
     }
-
-    //Falta um return (-2)
 
     if(dir != 'H' || dir != 'V')
     {
