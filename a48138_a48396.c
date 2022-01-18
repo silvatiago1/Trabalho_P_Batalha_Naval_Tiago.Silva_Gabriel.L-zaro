@@ -273,6 +273,7 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
                         for (int j = y1; j < y1 + typesize; j++)
                         {
                             board->board[x1][j] = type;
+                            board->boats->afloat++;
                         }
                         ret = 0;
                         board->numBoatsAfloat++;
@@ -291,6 +292,7 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
                         for (int j = x1; j < x1 + typesize; j++)
                         {
                             board->board[j][y1] = type;
+                            board->boats->afloat++;
                         }
                         ret = 0;
                         board->numBoatsAfloat++;
@@ -392,6 +394,7 @@ int target(int x, int y, Board *board)
     int hit;
     Board bd;
     char check = check_sink(x, y, &bd);
+    printf("%c", board->boats->tSize);
     if (board->board[x][y] == board->boats->tSize && board->boats->afloat > 1)
     {
         board->board[x][y] = '*';
@@ -441,7 +444,7 @@ int main(void)
     printf("Indique onde pretende colocar o seu barco:\n\tLinha: ");
     scanf("%d", &xy.pos.x);
 
-    printf("\n\tColuna: ");
+    printf("\tColuna: ");
     scanf("%d", &xy.pos.y);
 
     //init_boat(&bt, bt.type,xy.pos, dir);
