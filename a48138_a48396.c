@@ -252,80 +252,80 @@ int check_free(int n, int m, Boat *boat, char board[n][m])
 int place_boat(int x1, int y1, int dir, char type, Board *board)
 {
     int typesize = typeToSize(type);
-    int ret;
+    int ret, cont;
 
     Position temp = {x1, y1};
 
     Boat bat;
     init_boat(&bat, type, temp, dir);
 
-    if(dir != 'H' && dir != 'V')
+    if (x1 < N && y1 < M && x1 >= 0 && y1 >= 0)
     {
-        if(x1<N&&y1<M&&x1>=0&&y1>=0)
+        int check = check_free(N, M, &bat, board->board);
+        if (typesize != -1)
         {
-            int check = check_free(N, M, &bat, board->board);
-
-            if (typesize != -1)
+            if (check == 1)
             {
-                if (check == 1)
+                if (dir == 'H')
                 {
-                    if (dir == 'H')
+                    cont = 1;
+                    if (y1 + typesize < N)
                     {
-                        if(x1+typesize<N)
+                        for (int j = y1; j < y1 + typesize; j++)
                         {
-                            for (int j = y1; j < y1 + typesize; j++)
-                            {
-                                board->board[x1][j] = type;
-                            }
-                            ret = 0;
-                            board->numBoatsAfloat++;
-                            board->numBoats++;
+                            board->board[x1][j] = type;
                         }
-                        else
-                        {
-                            ret=-2;
-                            printf("Coordenadas inválidas.");
-                        }
+                        ret = 0;
+                        board->numBoatsAfloat++;
+                        board->numBoats++;
                     }
                     else
                     {
-                        if(y1+typesize<M)
-                        {
-                            for (int j = x1; j < x1 + typesize; j++)
-                            {
-                                board->board[j][y1] = type;
-                            }
-                            ret = 0;
-                            board->numBoatsAfloat++;
-                            board->numBoats++;
-                        }
-                        else
-                        {
-                            ret=-2;
-                            printf("Coordenadas inválidas.");
-                        }
+                        ret = -2;
+                        printf("Coordenadas inválidas.\n");
                     }
                 }
-                else
+                if(dir == 'V')
                 {
-                    ret = -1;
-                    printf("Essa posição já está ocupada,esolha outra!\n");
+                    cont = 1;
+                    if (x1 + typesize < M)
+                    {
+                        for (int j = x1; j < x1 + typesize; j++)
+                        {
+                            board->board[j][y1] = type;
+                        }
+                        ret = 0;
+                        board->numBoatsAfloat++;
+                        board->numBoats++;
+                    }
+                    else
+                    {
+                        ret = -2;
+                        printf("Coordenadas inválidas.\n");
+                    }
                 }
             }
             else
             {
-                ret=-4;
+                ret = -1;
+                printf("Essa posição já está ocupada,esolha outra!\n");
             }
-        }    
+        }
         else
         {
-            ret=-2;
-            printf("Coordenadas inválidas!\n");
+            ret = -4;
         }
-    printf("Direção inválida!\nEscolha H ou V!\n");
-    ret=-3;
     }
-
+    else
+    {
+        ret = -2;
+        printf("Coordenadas inválidas!\n");
+    }
+    if (cont != 1)
+    {
+        printf("Direção errada\n");
+        ret = -3;
+    }
     return ret;
 }
 
@@ -354,11 +354,12 @@ char check_sink(int x, int y, Board *board)
             ret = board->boats->type;
             break;
         }
-        else{
+        else
+        {
             ret = 'F';
         }
     }
-    if(x>9 || x<0 || y<0 || y>10)
+    if (x > 9 || x < 0 || y < 0 || y > 10)
     {
         ret = 'I';
     }
@@ -441,21 +442,18 @@ int main(void)
     printf("\n\tColuna: ");
     scanf("%d", &xy.pos.y);
 
-    printf("%d\n", xy.pos.y);
-
     //init_boat(&bt, bt.type,xy.pos, dir);
 
     //check_free(N, M, &bt, brd.board);
 
-    int teste=place_boat(xy.pos.x, xy.pos.y, dir, bt.type, &brd);
-    printf("%d\n",x);
-    
+    place_boat(xy.pos.x, xy.pos.y, dir, bt.type, &brd);
+
     print_board(N, M, brd.board, 1);
 
     printf("Digite a posição que pretende atacar:\n");
-    printf("Linha:");
+    printf("Linha: ");
     scanf("%d", &x);
-    printf("Coluna:");
+    printf("Coluna: ");
     scanf("%d", &y);
 
     check_sink(x, y, &brd);
