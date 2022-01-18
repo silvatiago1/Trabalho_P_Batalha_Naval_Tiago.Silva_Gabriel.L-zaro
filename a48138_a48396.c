@@ -388,17 +388,10 @@ char check_sink(int x, int y, Board *board)
  **/
 int target(int x, int y, Board *board)
 {
-    Board bat;
     int hit;
-    char check = check_sink(x, y, &bat);
+    char check = check_sink(x, y, board);
     for (int i = 0; i < board->boats->tSize; i++)
-    {
-        if(check == board->boats->type)
-        {
-            board->board[board->boats->coord[i].pos.x][board->boats->coord[i].pos.y] = 'A';
-            hit = board->boats->tSize;
-        }
-        
+    {   
         if (board->boats->coord[i].pos.x == x && board->boats->coord[i].pos.y == y)
         {
             if (board->boats->coord[i].afloat == 1 && board->boats->afloat > 1)
@@ -418,10 +411,15 @@ int target(int x, int y, Board *board)
             hit = -1;
         }
     }
-    if(check == 'I')
+    for (int i = 0; i < board->boats->tSize; i++)
     {
-        hit = -2;
+        if(check == board->boats->type)
+        {
+            board->board[board->boats->coord[i].pos.x][board->boats->coord[i].pos.y] = 'A';
+            hit = board->boats->tSize;
+        }
     }
+
     return hit;
 }
 
