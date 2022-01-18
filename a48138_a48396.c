@@ -304,7 +304,7 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
                 }
                 else
                 {
-                    printf("Direção inválida");
+                    printf("Direção inválida\n");
                     ret=-3;
                 }
             }
