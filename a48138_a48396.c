@@ -463,7 +463,7 @@ int main(void)
     printf("Coluna: ");
     scanf("%d", &y);
 
-    check_sink(x, y, &brd);
+    //check_sink(x, y, &brd);
     target(x, y, &brd);
     print_board(N, M, brd.board, 1);
 
