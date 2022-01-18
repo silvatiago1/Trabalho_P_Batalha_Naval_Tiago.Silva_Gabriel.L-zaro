@@ -252,7 +252,7 @@ int check_free(int n, int m, Boat *boat, char board[n][m])
 int place_boat(int x1, int y1, int dir, char type, Board *board)
 {
     int typesize = typeToSize(type);
-    int ret, cont;
+    int ret;
 
     Position temp = {x1, y1};
 
@@ -268,8 +268,7 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
             {
                 if (dir == 'H')
                 {
-                    cont = 1;
-                    if (y1 + typesize < N)
+                    if (y1 + typesize <= M)
                     {
                         for (int j = y1; j < y1 + typesize; j++)
                         {
@@ -285,10 +284,9 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
                         printf("Coordenadas inválidas.\n");
                     }
                 }
-                if (dir == 'V')
+                else if (dir == 'V')
                 {
-                    cont = 1;
-                    if (x1 + typesize < M)
+                    if (x1 + typesize <= N)
                     {
                         for (int j = x1; j < x1 + typesize; j++)
                         {
@@ -303,6 +301,11 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
                         ret = -2;
                         printf("Coordenadas inválidas.\n");
                     }
+                }
+                else
+                {
+                    printf("Direção inválida");
+                    ret=-3;
                 }
             }
             else
@@ -321,11 +324,7 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
         ret = -2;
         printf("Coordenadas inválidas!\n");
     }
-    if (cont != 1)
-    {
-        printf("Direção errada\n");
-        ret = -3;
-    }
+
     return ret;
 }
 
