@@ -285,7 +285,7 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
                         printf("Coordenadas inválidas.\n");
                     }
                 }
-                if(dir == 'V')
+                if (dir == 'V')
                 {
                     cont = 1;
                     if (x1 + typesize < M)
@@ -359,7 +359,7 @@ char check_sink(int x, int y, Board *board)
             ret = 'F';
         }
     }
-    if (x > 9 || x < 0 || y < 0 || y > 10)
+    if (x >= N || y >= M || x < 0 || y < 0)
     {
         ret = 'I';
     }
@@ -389,29 +389,39 @@ char check_sink(int x, int y, Board *board)
  **/
 int target(int x, int y, Board *board)
 {
-    int hit = -1;
-    for (int i = 0; i < board->numBoatsAfloat; i++)
+    Board bat;
+    int hit;
+    char check = check_sink(x, y, &bat);
+    for (int i = 0; i < board->boats->tSize; i++)
     {
-        if (x == board->boats->coord[x].pos.x && y == board->boats->coord[y].pos.y && board->boats->coord[i].afloat == 1)
+        if(check == board->boats->type)
         {
-            char temp = check_sink(x, y, board->board);
-            if (temp == 'I')
+            board->board[board->boats->coord[i].pos.x][board->boats->coord[i].pos.y] = 'A';
+            hit = board->boats->tSize;
+        }
+        
+        if (board->boats->coord[i].pos.x == x && board->boats->coord[i].pos.y == y)
+        {
+            if (board->boats->coord[i].afloat == 1 && board->boats->afloat > 1)
             {
-                hit = -2;
+                board->board[x][y] = '*';
+                hit = 1;
+                board->boats->afloat--;
             }
             else
             {
-                board->boats->coord[i].afloat = 0;
-                if (temp == 'F')
-                {
-                    hit = 1;
-                }
-                else
-                {
-                    hit = typeToSize(board->boats->type);
-                }
+                hit = 0;
             }
         }
+        else
+        {
+            board->board[x][y] = 'F';
+            hit = -1;
+        }
+    }
+    if(check == 'I')
+    {
+        hit = -2;
     }
     return hit;
 }
@@ -457,7 +467,7 @@ int main(void)
     scanf("%d", &y);
 
     check_sink(x, y, &brd);
-
+    target(x, y, &brd);
     print_board(N, M, brd.board, 1);
 
     /**Exemplo de uso da print_board e da place_boat**/
