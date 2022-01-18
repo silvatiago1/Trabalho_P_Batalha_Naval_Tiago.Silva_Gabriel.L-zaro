@@ -259,7 +259,7 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
     Boat bat;
     init_boat(&bat, type, temp, dir);
 
-    if(x1>N||y1>M||x1<0||y1<0)
+    if(x1<N&&y1<M&&x1>0&&y1>0)
     {
         int check = check_free(N, M, &bat, board->board);
 
@@ -292,6 +292,7 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
     else
     {
         ret=-2;
+        printf("Coordenadas inválidas!");
     }
 
     if(dir != 'H' || dir != 'V')
@@ -426,8 +427,8 @@ int main(void)
 
     //check_free(N, M, &bt, brd.board);
 
-    place_boat(xy.pos.x, xy.pos.y, dir, bt.type, &brd);
-
+    int teste=place_boat(xy.pos.x, xy.pos.y, dir, bt.type, &brd);
+    printf("%d",x);
     print_board(N, M, brd.board, 1);
 
     printf("Digite a posição que pretende atacar:\n");
