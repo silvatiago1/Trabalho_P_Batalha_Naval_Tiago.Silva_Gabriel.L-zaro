@@ -268,16 +268,17 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
             {
                 if (dir == 'H')
                 {
-                    if (y1 + typesize <= M)
+                    if (y1 + typesize <= M) //Verificar se é < ou <=
                     {
                         for (int j = y1; j < y1 + typesize; j++)
                         {
                             board->board[x1][j] = type;
-                            bat.afloat++;
                         }
                         ret = 0;
+                        board->boats[board->numBoats] = bat;
                         board->numBoatsAfloat++;
                         board->numBoats++;
+                    
                     }
                     else
                     {
@@ -291,9 +292,9 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
                         for (int j = x1; j < x1 + typesize; j++)
                         {
                             board->board[j][y1] = type;
-                            bat.afloat++;
                         }
                         ret = 0;
+                        board->boats[board->numBoats] = bat;
                         board->numBoatsAfloat++;
                         board->numBoats++;
                     }
@@ -342,19 +343,32 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
  **/
 char check_sink(int x, int y, Board *board)
 {
-    char ret;
+    char ret = 'F';
+    //printf("%d\n", board->numBoats);
     for (int i = 0; i < board->numBoats; i++)
     {
-        for(int j = 0; j < board->numBoatsAfloat; j++)
+      //  printf("%d\n", board->boats[i].tSize);
+        for (int j = 0; j < board->boats[i].tSize; j++)
         {
-            if(board->boats[i].coord[j].pos.x == x && board->boats[i].coord[j].pos.y == y && board->boats[i].afloat == 1)
+            if (board->boats[i].coord[j].pos.x == x && board->boats[i].coord[j].pos.y == y && board->boats[i].coord[j].afloat == 1)
             {
-
-                ret = board->boats[i].type;
+                board->boats[i].coord[j].afloat = 0;
+                board->boats[i].afloat--;
+                if (board->boats[i].afloat == 0) //afundou
+                {
+                    ret = board->boats[i].type;
+                    board->numBoatsAfloat--;
+                    for (int k = 0; k < board->boats[i].tSize; k++)
+                    {
+                        board->board[board->boats[i].coord[k].pos.x][board->boats[i].coord[k].pos.y] = 'A';
+                    }
+                }
+                break;
             }
-            else{
-                ret = 'F';
-            }
+        }
+        if (ret != 'F') //se ja encontrou um faz break
+        {
+            break;
         }
     }
     if (x >= N || y >= M || x < 0 || y < 0)
@@ -362,7 +376,7 @@ char check_sink(int x, int y, Board *board)
         ret = 'I';
     }
 
-        /*if (board->boats->coord[i].pos.x == x && board->boats->coord[i].pos.y == y && board->boats->afloat == 1)
+    /*if (board->boats->coord[i].pos.x == x && board->boats->coord[i].pos.y == y && board->boats->afloat == 1)
         {
             board->numBoatsAfloat--;
             ret = board->boats->type;
@@ -416,7 +430,7 @@ int target(int x, int y, Board *board)
             board->board[x][y] = '*';
             hit = 1;
             check = check_sink(x, y, board);
-            if(check != 'F' && check != 'I')
+            if (check != 'F' && check != 'I')
             {
                 hit = typeToSize(check);
             }
@@ -426,8 +440,6 @@ int target(int x, int y, Board *board)
     {
         board->board[x][y] = 'F';
     }
-
-
 
     /*board->board[x][y] = '*';
         hit = 1;
@@ -471,15 +483,16 @@ int main(void)
     int x, y;
 
     Board brd;
-    Boat bt;
+    //Boat bt;
+    char type;
     StateCoord xy;
     init_board(N, M, &brd);
     print_board(N, M, brd.board, 1);
 
     printf("Qual é o tipo de barco que prentede colocar? (P/N/C/S)\n");
-    scanf("%c", &bt.type);
+    scanf("%c", &type);
 
-    bt.tSize = typeToSize(bt.type);
+    //bt.tSize = typeToSize(bt.type);
 
     printf("Digite qual a direção do barco\n\t H-> Horizontal\n\t V-> Vertical\n");
     scanf(" %c", &dir);
@@ -494,7 +507,7 @@ int main(void)
 
     //check_free(N, M, &bt, brd.board);
 
-    place_boat(xy.pos.x, xy.pos.y, dir, bt.type, &brd);
+    place_boat(xy.pos.x, xy.pos.y, dir, type, &brd);
 
     print_board(N, M, brd.board, 1);
 
