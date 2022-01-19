@@ -778,7 +778,20 @@ int main(void)
                 {
                     printf("O jogador 1 venceu esta rodada!!!\nParabéns!\n");
                     player1++;
-                }            
+                }
+            }
+            else
+            {
+                if(player==1)
+                {
+                    printf("O jogador 1 venceu esta rodada!!!\nParabéns!\n");
+                    player1++;
+                }
+                else
+                {
+                    printf("O jogador 2 venceu esta rodada!!!\nParabéns!\n");
+                    player2++;
+                }
             }
         }
         printf("Jogador 1: %d-%d :Jogador 2\n",player1,player2);
