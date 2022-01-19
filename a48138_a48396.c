@@ -723,18 +723,48 @@ int main(void)
                 break;
             case 3:
                 printf("Afundou um contraturpedeiro!!!\n");
-                break;
             case 4:
                 printf("Afundou um navio-tanque!!!\n");
-                break;
             case 5:
                 printf("Afundou um porta-aviões!!!\n");
-                break;
             default:
 
                 break;
             }
-            
+
+            /*if(fint==-1)
+            {
+                printf("Acertou na água!!\n");
+            }
+            else if(fint==1)
+            {
+                printf("Atingiu um barco sem o afundar!\n");
+            }
+            else if(fint==2)
+            {
+                printf("Afundou um submarino!!!\n");
+            }
+            else if(fint==3)
+            {
+                printf("Afundou um contraturpedeiro!!!\n");
+            }
+            else if(fint==4)
+            {
+               printf("Afundou um navio-tanque!!!\n");
+            }
+            else if(fint==5)
+            {
+                printf("Afundou um porta-aviões!!!\n");
+            }
+            else if(fint==0)
+            {
+                printf("Essa posição já foi atacada, escolha outra!\n");
+                tatakae--;
+            }
+            else if(tatakae==-2)
+            {
+                printf("Posição inválida, escolha outra!\n");
+            }*/
             print_board(N,M,brd.board,flag);
 
             if(brd.numBoatsAfloat==0)
