@@ -480,12 +480,12 @@ int target(int x, int y, Board *board)
 int main(void)
 {
     char dir;
-    int x, y;
+    int xx, yy, x, y;
 
     Board brd;
     //Boat bt;
     char type;
-    StateCoord xy;
+    //StateCoord xy;
     init_board(N, M, &brd);
     print_board(N, M, brd.board, 1);
 
@@ -498,16 +498,16 @@ int main(void)
     scanf(" %c", &dir);
 
     printf("Indique onde pretende colocar o seu barco:\n\tLinha: ");
-    scanf("%d", &xy.pos.x);
+    scanf("%d", &xx);
 
     printf("\tColuna: ");
-    scanf("%d", &xy.pos.y);
+    scanf("%d", &yy);
 
     //init_boat(&bt, bt.type,xy.pos, dir);
 
     //check_free(N, M, &bt, brd.board);
 
-    place_boat(xy.pos.x, xy.pos.y, dir, type, &brd);
+    place_boat(xx, yy, dir, type, &brd);
 
     print_board(N, M, brd.board, 1);
 
