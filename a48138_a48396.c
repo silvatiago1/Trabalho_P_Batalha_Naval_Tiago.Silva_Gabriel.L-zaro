@@ -467,9 +467,9 @@ int main(void)
 
         while (brd.numBoats < 6)
         {
-            printf("Ainda tem a seguinte quantidade de cada tipo de barco para colocar:\n\tPorta-aviões-> %d;\n\tNavios-tanque-> %d;\n\tContratorpedeiros-> %d;\n\tSubmarinos-> %d.\n\n", p, n, c, s);
-            printf("Insira a letra inicial do barco que pretende colocar no tabuleiro:\n");
-            scanf("%c", &type);
+            printf("Ainda tem a seguinte quantidade de cada tipo de barco para colocar:\n\tPorta-aviões[P]-> %d;\n\tNavios-tanque[N]-> %d;\n\tContratorpedeiros[C]-> %d;\n\tSubmarinos[S]-> %d.\n\n", p, n, c, s);
+            printf("Insira a letra inicial do barco que pretende colocar no tabuleiro:\n");            
+            scanf(" %c", &type);
 
             switch (type)
             {
@@ -602,7 +602,7 @@ int main(void)
                     }
                     else if (fint == -1)
                     {
-                        printf("Colisão de barcos!\nNão pode colocar barcos por cima de barocos já existentes!!\n");
+                        printf("Colisão de barcos!\nNão pode colocar barcos por cima de barcos já existentes!!\n");
                     }
                     else if (fint == -2)
                     {
@@ -612,7 +612,6 @@ int main(void)
                     {
                         printf("Direção inválida!\nPor favor escolha H ou V!!\n");
                     }
-
                     print_board(N, M, brd.board, flag);
                 }
                 else
@@ -719,12 +718,12 @@ int main(void)
             {
                 if (player == 1)
                 {
-                    printf("O jogador 2 venceu esta rodada!!!\nParabéns!\n");
+                    printf("O jogador 2 venceu esta rodada!!!\nParabéns!\n\n");
                     player2++;
                 }
                 else
                 {
-                    printf("O jogador 1 venceu esta rodada!!!\nParabéns!\n");
+                    printf("O jogador 1 venceu esta rodada!!!\nParabéns!\n\n");
                     player1++;
                 }
             }
@@ -732,12 +731,12 @@ int main(void)
             {
                 if (player == 1)
                 {
-                    printf("O jogador 1 venceu esta rodada!!!\nParabéns!\n");
+                    printf("O jogador 1 venceu esta rodada!!!\nParabéns!\n\n");
                     player1++;
                 }
                 else
                 {
-                    printf("O jogador 2 venceu esta rodada!!!\nParabéns!\n");
+                    printf("O jogador 2 venceu esta rodada!!!\nParabéns!\n\n");
                     player2++;
                 }
             }
