@@ -193,14 +193,14 @@ void init_boat(Boat *b, char type, Position xy, char dir) //Valores das coordena
     b->afloat = typeToSize(type);
     b->tSize = b->afloat;
     b->type = type;
-    for (int i = 0; i < b->tSize; i++)
+    for (int i = 0; i < b->tSize; i++)//percorrer o barco
     {
-        if (dir == 'H')
+        if (dir == 'H')//Se for horizontal mover as colunas
         {
             b->coord[i].pos.x = xy.x;
             b->coord[i].pos.y = xy.y + i;
         }
-        else
+        else//Se for vertical percorrer as linhas
         {
             b->coord[i].pos.x = xy.x + i;
             b->coord[i].pos.y = xy.y;
@@ -228,9 +228,9 @@ void init_boat(Boat *b, char type, Position xy, char dir) //Valores das coordena
 int check_free(int n, int m, Boat *boat, char board[n][m]) //Verifica se as posições que se pretende colocar o barco estão livres, se estiver devolve 0 e faz break, se não estiver devolve 1
 {
     int check = 1;
-    for (int i = 0; i < boat->tSize; i++)
+    for (int i = 0; i < boat->tSize; i++)//percorre o tamanho do barco
     {
-        if (board[boat->coord[i].pos.x][boat->coord[i].pos.y] != ' ')
+        if (board[boat->coord[i].pos.x][boat->coord[i].pos.y] != ' ')//verifica se a posição está vazia
         {
             check = 0;
             break;
@@ -445,7 +445,7 @@ int target(int x, int y, Board *board)
 //int colocaNavio()
 int main(void)
 {
-    char dir;
+    char dir,consult='n';
     int x, y, fint;
     int flag = 1, player1 = 0, player2 = 0, player = 0;
     char type, leave = 'N', jogador1[15], jogador2[15];
@@ -479,13 +479,13 @@ int main(void)
             printf("%s, coloque os navios:\n", jogador2);
         }
 
-        while (brd.numBoats < 6)
+        while (brd.numBoats < 6)//Enquanto todos os barcos disponíveis não forem colocados o jogo vai continuar a pedir ao defensor para colocar barcos
         {
             printf("Ainda tem a seguinte quantidade de cada tipo de barco para colocar:\n\tPorta-aviões[P]-> %d;\n\tNavios-tanque[N]-> %d;\n\tContratorpedeiros[C]-> %d;\n\tSubmarinos[S]-> %d.\n\n", p, n, c, s);
             printf("Insira a letra inicial do barco que pretende colocar no tabuleiro:\n");
             scanf(" %c", &type);
 
-            switch (type)
+            switch (type)//O utilizador vai colocar o tipo de barco que escolheu
             {
             case 'P':
                 if (p > 0)
@@ -497,14 +497,15 @@ int main(void)
                     printf("\tColuna: ");
                     scanf("%d", &y);
 
-                    fint = place_boat(x, y, dir, type, &brd);
+                    fint = place_boat(x, y, dir, type, &brd);//A variável fint serve para se verificar se o barco foi colocado com sucesso ou se houve um problema
+                                                             //No segundo caso ajuda a identificar o problema
                     print_board(N, M, brd.board, flag);
 
-                    if (fint == 0)
+                    if (fint == 0)//Caso não ocorram problemas o número de barcos que o utilizador pode colocar do tipo escolhido diminui
                     {
                         p--;
                     }
-                    else if (fint == -1)
+                    else if (fint == -1)//Os restantes casos são todos os erros possíveis
                     {
                         printf("Colisão de barcos!\nNão pode colocar barcos por cima de barcos já existentes!!\n");
                     }
@@ -516,8 +517,6 @@ int main(void)
                     {
                         printf("Direção inválida!\nPor favor escolha H ou V!!\n");
                     }
-
-                    //print_board(N, M, brd.board, flag);
                 }
                 else
                 {
@@ -555,8 +554,6 @@ int main(void)
                     {
                         printf("Direção inválida!\nPor favor escolha H ou V!!\n");
                     }
-
-                    //print_board(N, M, brd.board, flag);
                 }
                 else
                 {
@@ -594,8 +591,6 @@ int main(void)
                     {
                         printf("Direção inválida!\nPor favor escolha H ou V!!\n");
                     }
-
-                    //print_board(N, M, brd.board, flag);
                 }
                 else
                 {
@@ -633,12 +628,11 @@ int main(void)
                     {
                         printf("Direção inválida!\nPor favor escolha H ou V!!\n");
                     }
-                    //print_board(N, M, brd.board, flag);
                 }
-                else
+                else//Caso já não haja mais barcos do tipo pretendido disponíveis
                 {
                     print_board(N, M, brd.board, flag);
-                    printf("Já atingiu o limite de Submarinos, por favor esolha outro tipo de barco para colocar!\n\n");
+                    printf("Já atingiu o limite de Submarinos, por favor escolha outro tipo de barco para colocar!\n\n");
                 }
                 break;
 
@@ -648,7 +642,7 @@ int main(void)
             }
         }
         printf("\n\nTodos os barcos foram colocados com sucesso!\n");
-        flag = 0;
+        flag = 0;//A flag muda para 0 de modo a que o atacante não veja a posição dos barcos
 
         print_board(N, M, brd.board, flag);
 
@@ -663,7 +657,29 @@ int main(void)
 
         for (int tatakae = 0; tatakae < 40 && brd.numBoatsAfloat != 0; tatakae++)
         {
-            //Nota:Perguntar à professora se é para retirar 1 quando já atacamos a posição;
+        printf("Se quiser ver as posições dos barcos prima c,caso contrário prima qualquer outro botão\nSe o fizer perderá automaticamente!");
+        scanf("%c",consult);
+        if(consult=='c')
+        {
+            if (player == 1)
+            {
+                printf("O %s perdeu!\n", jogador2);
+            }
+            else
+            {
+                printf("O %s perdeu!\n", jogador1);
+            }
+        }
+            
+            if(player==1)
+            {
+                printf("%s ainda tem %d jogadas de ataque!\n",jogador2, 40-tatakae);
+            }
+            else
+            {
+                printf("%s ainda tem %d jogadas de ataque!\n",jogador1, 40-tatakae);
+            }
+
             printf("Digite a posição que pretende atacar:\n");
             printf("Linha: ");
             scanf("%d", &x);
@@ -738,7 +754,7 @@ int main(void)
 
             if (brd.numBoatsAfloat == 0)
             {
-                if (player == 1)
+                if (player == 1&&consult!='c')
                 {
                     printf("O %s venceu esta rodada!!!\nParabéns!\n\n", jogador2);
                     player2++;
@@ -765,7 +781,7 @@ int main(void)
         }
         printf("%s: %d-%d :%s\n", jogador1, player1, player2, jogador2);
 
-        printf("Se deseja saír do jogo prima Y\n");
+        printf("Se deseja saír do jogo prima Y, caso contrário prima qualquer outra tecla\n");
         scanf(" %c", &leave);
 
         if (leave == 'Y')
