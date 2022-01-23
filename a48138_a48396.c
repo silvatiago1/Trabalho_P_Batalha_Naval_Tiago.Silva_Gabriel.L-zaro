@@ -374,7 +374,7 @@ char check_sink(int x, int y, Board *board)
     {
         for (int j = 0; j < board->boats[i].tSize; j++)
         {
-            if (board->boats[i].coord[j].pos.x == x && board->boats[i].coord[j].pos.y == y //&& board->boats[i].afloat == 1)
+            if (board->boats[i].coord[j].pos.x == x && board->boats[i].coord[j].pos.y == y) //&& board->boats[i].afloat == 1)
             {
                 board->boats[i].coord[j].afloat = 0;
                 board->boats[i].afloat--;
