@@ -416,28 +416,28 @@ char check_sink(int x, int y, Board *board)
  **/
 int target(int x, int y, Board *board)
 {
-    int hit = -1;
+    int hit = -1;//Valor que vai ser devolvido
     char check;
-    if (board->board[x][y] != ' ')
+    if (board->board[x][y] != ' ')//Caso a posição não esteja vazia
     {
-        if (board->board[x][y] == 'F' || board->board[x][y] == 'A' || board->board[x][y] == '*')
+        if (board->board[x][y] == 'F' || board->board[x][y] == 'A' || board->board[x][y] == '*')//Se a posicão já foi atacada anteriormente hit=0
         {
             hit = 0;
         }
         else
         { //caso que acerte num barco
-            board->board[x][y] = '*';
+            board->board[x][y] = '*';//Indica que o barco foi atingido
             hit = 1;
-            check = check_sink(x, y, board);
-            if (check != 'F' && check != 'I')
+            check = check_sink(x, y, board);//Vai devolver F ou I se nenhum barco for afundado, caso contrário devolve um tipo de barco
+            if (check != 'F' && check != 'I')//Se o barco for afundado
             {
                 hit = typeToSize(check);
             }
         }
     }
-    else
+    else//Caso nunca tenha havido um barco no local
     {
-        board->board[x][y] = 'F';
+        board->board[x][y] = 'F';//Posição atingida sem atingir um barco
     }
     return hit;
 }
@@ -735,34 +735,34 @@ int main(void)
                 printf("Posição inválida, escolha outra!\n");
             }*/
             //print_board(N, M, brd.board, flag);
-
-            if (brd.numBoatsAfloat == 0)
-            {
-                if (player == 1)
-                {
-                    printf("O %s venceu esta rodada!!!\nParabéns!\n\n", jogador2);
-                    player2++;
-                }
-                else
-                {
-                    printf("O %s venceu esta rodada!!!\nParabéns!\n\n", jogador1);
-                    player1++;
-                }
-            }
-            else if(brd.numBoatsAfloat!=0&&tatakae>=40)
-            {
-                if (player == 1)
-                {
-                    printf("O %s venceu esta rodada!!!\nParabéns!\n\n", jogador1);
-                    player1++;
-                }
-                else
-                {
-                    printf("O %s venceu esta rodada!!!\nParabéns!\n\n", jogador2);
-                    player2++;
-                }
-            }
         }  
+
+        if (brd.numBoatsAfloat == 0)
+        {
+            if (player == 1)                {
+                printf("O %s venceu esta rodada!!!\nParabéns!\n\n", jogador2);
+                player2++;
+            }
+            else
+            {
+                printf("O %s venceu esta rodada!!!\nParabéns!\n\n", jogador1);
+                player1++;
+            }
+        }
+        else
+        {
+             if (player == 1)
+            {
+                printf("O %s venceu esta rodada!!!\nParabéns!\n\n", jogador1);
+                player1++;
+            }
+            else
+            {
+                printf("O %s venceu esta rodada!!!\nParabéns!\n\n", jogador2);
+                player2++;
+            }
+        }
+
         printf("%s: %d-%d :%s\n", jogador1, player1, player2, jogador2);
 
         printf("Se deseja saír do jogo prima Y\n");
