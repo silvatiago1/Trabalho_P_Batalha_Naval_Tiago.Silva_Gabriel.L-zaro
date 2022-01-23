@@ -661,6 +661,7 @@ int main(void)
         scanf("%c",consult);
         if(consult=='c')
         {
+            print_board(N, M, brd.board, flag);
             if (player == 1)
             {
                 printf("O %s perdeu!\n", jogador2);
