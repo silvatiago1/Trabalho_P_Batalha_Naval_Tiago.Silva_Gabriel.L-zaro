@@ -108,7 +108,7 @@ void print_board(int n, int m, char board[n][m], int flag)
             }
             printf("\n");
         }
-        else // Esconde os barcos
+        else // Esconde os barcos-> Se no board estiver a letra de um barco (P/N/C/S) esconde a letra e apresenta espaço em branco, caso não esteja apresenta o que está no board
         {
             for (int j = 0; j < n; j++)
             {
@@ -144,7 +144,7 @@ void print_board(int n, int m, char board[n][m], int flag)
  *  -1 se o tipo de barco for inválido
  *  caso contrário, devolve o tamanho do barco
  **/
-int typeToSize(char type)
+int typeToSize(char type) //Utilizador escolhe o tipo do barco e a função retorna o respetivo tamanho, caso o tipo de barco seja inválido a função retorna -1
 {
     int tSize;
     switch (type)
@@ -188,7 +188,7 @@ int typeToSize(char type)
  * dir: direcção do barco
  * 
  **/
-void init_boat(Boat *b, char type, Position xy, char dir)
+void init_boat(Boat *b, char type, Position xy, char dir) //Valores das coordenadas do barcos, caso o jogador escolha H mantém-se o valor x e soma-se i ao y, caso escolha V mantém-se o y e soma-se o i ao x e dá-se valor de 1 ao afloat nessas mesmas coordenadas
 {
     b->afloat = typeToSize(type);
     b->tSize = b->afloat;
@@ -225,7 +225,7 @@ void init_boat(Boat *b, char type, Position xy, char dir)
  *  0 caso contrário
  * 
  **/
-int check_free(int n, int m, Boat *boat, char board[n][m])
+int check_free(int n, int m, Boat *boat, char board[n][m]) //Verifica se as posições que se pretende colocar o barco estão livres, se estiver devolve 0 e faz break, se não estiver devolve 1
 {
     int check = 1;
     for (int i = 0; i < boat->tSize; i++)
@@ -257,39 +257,35 @@ int check_free(int n, int m, Boat *boat, char board[n][m])
  * -3 se a direcção for inválida.
  * -4 se o tipo de barco for inválido.
  **/
-int place_boat(int x1, int y1, int dir, char type, Board *board)
+int place_boat(int x1, int y1, int dir, char type, Board *board) 
 {
-    int typesize = typeToSize(type);
+    int typesize = typeToSize(type);  //Invoca a função typeToSize para saber qual é o tamanho do barco que o jogador pretende colocar no board
     int ret;
 
     Position temp = {x1, y1};
 
     Boat bat;
-    init_boat(&bat, type, temp, dir);
+    init_boat(&bat, type, temp, dir);  
 
     if (x1 < N && y1 < M && x1 >= 0 && y1 >= 0)
     {
-        int check = check_free(N, M, &bat, board->board);
-        if (typesize != -1)
-        {
-            if (dir == 'H')
+        int check = check_free(N, M, &bat, board->board); //Invoca a função check_free, se as posições estiverem livre coloca a letra respetiva a esse barco nessas posições e devolve 0
+        if (typesize != -1)                               
+        {                                                 
+            if (dir == 'H') 
             {
-                if (y1 + typesize <= M) //Verificar se é < ou <=
+                if (y1 + typesize <= M)                   //Verifica se as coordenadas são válidas, caso não sejam devolve -2
                 {
                     if (check == 1)
                     {
                         for (int j = y1; j < y1 + typesize; j++)
                         {
-                            board->board[x1][j] = type;
+                            board->board[x1][j] = type;         //Coloca a respetiva letra do barco nas coordenadas escolhidas
                         }
-                        /*for (int j = 0; j < board->boats[board->numBoats].tSize; j++)
-                        {
-                            board->boats[board->numBoats].coord[j].afloat = 1;
-                        }*/
                         ret = 0;
-                        board->boats[board->numBoats] = bat;
+                        board->boats[board->numBoats] = bat;    
                         board->boats[board->numBoats].afloat = typesize;
-                        board->numBoatsAfloat++;
+                        board->numBoatsAfloat++;                            //Aumenta 1 valor no número de barcos colocados e não afundados
                         board->numBoats++;
                     }
                     else
@@ -312,11 +308,6 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
                         {
                             board->board[j][y1] = type;
                         }
-                        /*for(int i = 0; )
-                            for (int j = 0; j < board->boats[board->numBoats].tSize; j++)
-                            {
-                                board->boats[board->numBoats].coord[j].afloat = 1;
-                            }*/
                         ret = 0;
                         board->boats[board->numBoats] = bat;
                         board->boats[board->numBoats].afloat = typesize;
@@ -369,33 +360,32 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
 char check_sink(int x, int y, Board *board)
 {
     char ret = 'F';
-    //printf("%d\n", board->numBoats);
     for (int i = 0; i < board->numBoats; i++)
     {
         for (int j = 0; j < board->boats[i].tSize; j++)
         {
-            if (board->boats[i].coord[j].pos.x == x && board->boats[i].coord[j].pos.y == y) //&& board->boats[i].afloat == 1)
+            if (board->boats[i].coord[j].pos.x == x && board->boats[i].coord[j].pos.y == y)
             {
-                board->boats[i].coord[j].afloat = 0;
-                board->boats[i].afloat--;
-                if (board->boats[i].afloat == 0) //afundou
+                board->boats[i].coord[j].afloat = 0;    //Se acertou no barco, dá valor 0 ao afloat das coordenadas, o que significa que essa posição foi afundada
+                board->boats[i].afloat--;               //Reduz um valor á variável afloat que representa o número de posições que ainda não foram afundadas
+                if (board->boats[i].afloat == 0) //Se o número de posições que ainda não foram afundadas for 0, então é porque o barco foi afundado
                 {
-                    ret = board->boats[i].type;
-                    board->numBoatsAfloat--;
+                    ret = board->boats[i].type;       //devolve a letra do barco que foi afundado
+                    board->numBoatsAfloat--;          //Reduz um valor no número de barcos que ainda não foram afundados
                     for (int k = 0; k < board->boats[i].tSize; k++)
                     {
-                        board->board[board->boats[i].coord[k].pos.x][board->boats[i].coord[k].pos.y] = 'A';
-                    }
+                        board->board[board->boats[i].coord[k].pos.x][board->boats[i].coord[k].pos.y] = 'A';  //Apresenta 'A' nas coordenadas do barco que foi afundado
+                    }           
                 }
                 break;
             }
         }
-        if (ret != 'F') //se ja encontrou um faz break
+        if (ret != 'F') //se ja encontrou um valor diferente de 'F', ou seja, se o barco foi afundado faz break
         {
             break;
         }
     }
-    if (x >= N || y >= M || x < 0 || y < 0)
+    if (x >= N || y >= M || x < 0 || y < 0)  //Se as coordenadas que o jogador pretende atacar forem inválidas devolve 'I'
     {
         ret = 'I';
     }
@@ -429,17 +419,17 @@ int target(int x, int y, Board *board)
     char check;
     if (board->board[x][y] != ' ')
     {
-        if (board->board[x][y] == 'F' || board->board[x][y] == 'A' || board->board[x][y] == '*')
-        {
+        if (board->board[x][y] == 'F' || board->board[x][y] == 'A' || board->board[x][y] == '*') //Se nas coordenadas que o jogador pretende atacar estiver
+        {                                                       //'F' ou 'A' ou '*' devolve o valor 0, uma vez que esta posição já foi atacada anteriormente
             hit = 0;
         }
         else
-        { //caso que acerte num barco
+        {               //caso que acerte num barco coloca * no board nas coordenadas atacadas e devolve 1
 
             board->board[x][y] = '*';
-            hit = 1;
-            check = check_sink(x, y, board);
-            if (check != 'F' && check != 'I')
+            hit = 1;                           
+            check = check_sink(x, y, board);   //Invoca a função check_sink, se o valor que essa função retornar for diferente de 'F' e 'I', ou seja, tem coordenadas
+            if (check != 'F' && check != 'I')  //válidas e se foi afundado um barco, devolve a letra do barco que foi afundado
             {
                 hit = typeToSize(check);
             }
@@ -447,7 +437,7 @@ int target(int x, int y, Board *board)
     }
     else
     {
-        board->board[x][y] = 'F';
+        board->board[x][y] = 'F';        //Caso o jogador dois não atinja nenhum barco, coloca 'F' no board nessas coordenadas
     }
     return hit;
 }
@@ -465,13 +455,13 @@ int main(void)
     printf("Jogador 2, digite o seu nome:\n");
     scanf("%s", jogador2);
 
-    for (int turn = 0; leave == 'N'; turn++)
-    {
+    for (int turn = 0; leave == 'N'; turn++)  //A cada jogo terminado aumenta 1 no valor turn, se turn for par o jogador 1 começa a colocar os navios,
+    {                                         //se for ímpar é o jogador 2 que começa a colocar os navios 
         if (turn % 2 == 0)
         {
             player = 1;
         }
-        else
+        else                                  
         {
             player = 2;
         }
