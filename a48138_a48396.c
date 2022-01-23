@@ -271,11 +271,11 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
         int check = check_free(N, M, &bat, board->board);
         if (typesize != -1)
         {
-            if (check == 1)
+            if (dir == 'H')
             {
-                if (dir == 'H')
+                if (y1 + typesize <= M) //Verificar se é < ou <=
                 {
-                    if (y1 + typesize <= M) //Verificar se é < ou <=
+                    if (check == 1)
                     {
                         for (int j = y1; j < y1 + typesize; j++)
                         {
@@ -288,12 +288,19 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
                     }
                     else
                     {
-                        ret = -2;
+                        ret = -1;
                     }
                 }
-                else if (dir == 'V')
+                else
                 {
-                    if (x1 + typesize <= N)
+                    ret = -2;
+                }
+            }
+            else if (dir == 'V')
+            {
+                if (x1 + typesize <= N)
+                {
+                    if (check == 1)
                     {
                         for (int j = x1; j < x1 + typesize; j++)
                         {
@@ -306,17 +313,17 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
                     }
                     else
                     {
-                        ret = -2;
+                        ret = -1;
                     }
                 }
                 else
                 {
-                    ret = -3;
+                    ret = -2;
                 }
             }
             else
             {
-                ret = -1;
+                ret = -3;
             }
         }
         else
@@ -439,7 +446,12 @@ int main(void)
     char dir;
     int x, y, fint;
     int flag = 1, player1 = 0, player2 = 0, player = 0;
-    char type, leave = 'N';
+    char type, leave = 'N', jogador1[15], jogador2[15];
+
+    printf("Jogador 1, digite o seu nome:\n");
+    scanf("%s", jogador1);
+    printf("Jogador 2, digite o seu nome:\n");
+    scanf("%s", jogador2);
 
     for (int turn = 0; leave == 'N'; turn++)
     {
@@ -454,15 +466,15 @@ int main(void)
 
         Board brd;
         init_board(N, M, &brd);
-
+        print_board(N, M, brd.board, flag);
         int p = 1, n = 1, c = 2, s = 2;
         if (player == 1)
         {
-            printf("Jogador 1, coloque os navios:\n");
+            printf("%s, coloque os navios:\n", jogador1);
         }
         else
         {
-            printf("Jogador 2 coloque os navios:\n");
+            printf("%s, coloque os navios:\n", jogador2);
         }
 
         while (brd.numBoats < 6)
@@ -484,6 +496,7 @@ int main(void)
                     scanf("%d", &y);
 
                     fint = place_boat(x, y, dir, type, &brd);
+                    print_board(N, M, brd.board, flag);
 
                     if (fint == 0)
                     {
@@ -502,11 +515,12 @@ int main(void)
                         printf("Direção inválida!\nPor favor escolha H ou V!!\n");
                     }
 
-                    print_board(N, M, brd.board, flag);
+                    //print_board(N, M, brd.board, flag);
                 }
                 else
                 {
-                    printf("Já atingiu o limite de Porta-aviões, por favor esolha outro tipo de barco para colocar!\n");
+                    print_board(N, M, brd.board, flag);
+                    printf("Já atingiu o limite de Porta-aviões, por favor esolha outro tipo de barco para colocar!\n\n");
                 }
                 break;
 
@@ -521,6 +535,7 @@ int main(void)
                     scanf("%d", &y);
 
                     fint = place_boat(x, y, dir, type, &brd);
+                    print_board(N, M, brd.board, flag);
 
                     if (fint == 0)
                     {
@@ -539,11 +554,12 @@ int main(void)
                         printf("Direção inválida!\nPor favor escolha H ou V!!\n");
                     }
 
-                    print_board(N, M, brd.board, flag);
+                    //print_board(N, M, brd.board, flag);
                 }
                 else
                 {
-                    printf("Já atingiu o limite de Navios-tanque, por favor esolha outro tipo de barco para colocar!\n");
+                    print_board(N, M, brd.board, flag);
+                    printf("Já atingiu o limite de Navios-tanque, por favor esolha outro tipo de barco para colocar!\n\n");
                 }
                 break;
 
@@ -558,6 +574,7 @@ int main(void)
                     scanf("%d", &y);
 
                     fint = place_boat(x, y, dir, type, &brd);
+                    print_board(N, M, brd.board, flag);
 
                     if (fint == 0)
                     {
@@ -565,7 +582,7 @@ int main(void)
                     }
                     else if (fint == -1)
                     {
-                        printf("Colisão de barcos!\nNão pode colocar barcos por cima de barocos já existentes!!\n");
+                        printf("Colisão de barcos!\nNão pode colocar barcos por cima de barcos já existentes!!\n");
                     }
                     else if (fint == -2)
                     {
@@ -576,11 +593,12 @@ int main(void)
                         printf("Direção inválida!\nPor favor escolha H ou V!!\n");
                     }
 
-                    print_board(N, M, brd.board, flag);
+                    //print_board(N, M, brd.board, flag);
                 }
                 else
                 {
-                    printf("Já atingiu o limite de Contratorpedeiros, por favor escolha outro tipo de barco para colocar!\n");
+                    print_board(N, M, brd.board, flag);
+                    printf("Já atingiu o limite de Contratorpedeiros, por favor escolha outro tipo de barco para colocar!\n\n");
                 }
                 break;
 
@@ -595,6 +613,7 @@ int main(void)
                     scanf("%d", &y);
 
                     fint = place_boat(x, y, dir, type, &brd);
+                    print_board(N, M, brd.board, flag);
 
                     if (fint == 0)
                     {
@@ -612,34 +631,35 @@ int main(void)
                     {
                         printf("Direção inválida!\nPor favor escolha H ou V!!\n");
                     }
-                    print_board(N, M, brd.board, flag);
+                    //print_board(N, M, brd.board, flag);
                 }
                 else
                 {
-                    printf("Já atingiu o limite de Submarinos, por favor esolha outro tipo de barco para colocar!\n");
+                    print_board(N, M, brd.board, flag);
+                    printf("Já atingiu o limite de Submarinos, por favor esolha outro tipo de barco para colocar!\n\n");
                 }
                 break;
 
             default:
-                printf("Tipo de navio inválido, por favor escolha outro tipo de navio!\n");
+                printf("Tipo de navio inválido, por favor escolha outro tipo de navio!\n\n");
                 break;
             }
         }
-        printf("Todos os barcos foram colocados\n");
+        printf("\n\nTodos os barcos foram colocados com sucesso!\n");
         flag = 0;
 
         print_board(N, M, brd.board, flag);
 
         if (player == 1)
         {
-            printf("Jogador 2, hora de atacar!\n");
+            printf("%s, hora de atacar!\n", jogador2);
         }
         else
         {
-            printf("Jogador 1, hora de atacar!\n");
+            printf("%s, hora de atacar!\n", jogador1);
         }
 
-        for (int tatakae = 0; tatakae < 40, brd.numBoatsAfloat != 0; tatakae++)
+        for (int tatakae = 0; tatakae < 40 && brd.numBoatsAfloat != 0; tatakae++)
         {
             //Nota:Perguntar à professora se é para retirar 1 quando já atacamos a posição;
             printf("Digite a posição que pretende atacar:\n");
@@ -649,7 +669,7 @@ int main(void)
             scanf("%d", &y);
 
             fint = target(x, y, &brd);
-
+            print_board(N, M, brd.board, flag);
             switch (fint)
             {
             case -1:
@@ -712,18 +732,18 @@ int main(void)
             {
                 printf("Posição inválida, escolha outra!\n");
             }*/
-            print_board(N, M, brd.board, flag);
+            //print_board(N, M, brd.board, flag);
 
             if (brd.numBoatsAfloat == 0)
             {
                 if (player == 1)
                 {
-                    printf("O jogador 2 venceu esta rodada!!!\nParabéns!\n\n");
+                    printf("O %s venceu esta rodada!!!\nParabéns!\n\n", jogador2);
                     player2++;
                 }
                 else
                 {
-                    printf("O jogador 1 venceu esta rodada!!!\nParabéns!\n\n");
+                    printf("O %s venceu esta rodada!!!\nParabéns!\n\n", jogador1);
                     player1++;
                 }
             }
@@ -731,17 +751,17 @@ int main(void)
             {
                 if (player == 1)
                 {
-                    printf("O jogador 1 venceu esta rodada!!!\nParabéns!\n\n");
+                    printf("O %s venceu esta rodada!!!\nParabéns!\n\n", jogador1);
                     player1++;
                 }
                 else
                 {
-                    printf("O jogador 2 venceu esta rodada!!!\nParabéns!\n\n");
+                    printf("O %s venceu esta rodada!!!\nParabéns!\n\n", jogador2);
                     player2++;
                 }
             }
         }
-        printf("Jogador 1: %d-%d :Jogador 2\n", player1, player2);
+        printf("%s: %d-%d :%s\n", jogador1, player1, player2, jogador2);
 
         printf("Se deseja saír do jogo prima Y\n");
         scanf("%c", &leave);
@@ -750,18 +770,18 @@ int main(void)
         {
             if (player1 > player2)
             {
-                printf("O jogador 1 ganhou o jogo!!!\nMUITOS PARABÉNS!!!\n");
+                printf("O %s ganhou o jogo!!!\nMUITOS PARABÉNS!!!\n", jogador1);
             }
             else if (player1 < player2)
             {
-                printf("O jogador 2 ganhou o jogo!!!\nMUITOS PARABÉNS!!!\n");
+                printf("O %s ganhou o jogo!!!\nMUITOS PARABÉNS!!!\n", jogador2);
             }
             else
             {
                 printf("!!!EMPATE!!!\n");
             }
             printf("Resultado final:\n");
-            printf("Jogador 1: %d-%d :Jogador 2\n", player1, player2);
+            printf("%s: %d-%d :%s\n", jogador1, player1, player2, jogador2);
         }
     }
 
