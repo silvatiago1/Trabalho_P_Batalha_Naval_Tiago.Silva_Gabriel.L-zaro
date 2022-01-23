@@ -655,17 +655,21 @@ int main(void)
             printf("%s, hora de atacar!\n", jogador1);
         }
 
-        for (int tatakae = 0; tatakae < 40 && brd.numBoatsAfloat != 0; tatakae++)
+        for (int attack = 0; attack < 40 && brd.numBoatsAfloat != 0; attack++)//O ataque continua até o jogador atingir o limite de ataques ou afundar todos os barcos
         {
-        printf("Se quiser ver as posições dos barcos prima c,caso contrário prima qualquer outro botão\nSe o fizer perderá automaticamente!");
+        printf("Se quiser ver as posições dos barcos prima c,caso contrário prima qualquer outro botão\n"\n);
+        if(consult!=c)//O atacante apenas é avisado de que vai perder se ainda não tiver escolhido ver o tabuleiro
+        {
+            printf("Se o fizer perderá automaticamente!"\n);
+        }
         scanf("%c",consult);
+        
         if(consult=='c')
         {
             print_board(N, M, brd.board, flag);
             if (player == 1)
             {
-                printf("O %s perdeu!\n", jogador2);
-            }
+                printf("O %s perdeu!\n", jogador2);                }
             else
             {
                 printf("O %s perdeu!\n", jogador1);
@@ -687,7 +691,7 @@ int main(void)
             printf("Coluna: ");
             scanf("%d", &y);
 
-            fint = target(x, y, &brd);
+            fint = target(x, y, &brd);//fint é um indicador do que aconteceu com o disparo do atacante
             print_board(N, M, brd.board, flag);
             switch (fint)
             {
@@ -780,7 +784,7 @@ int main(void)
                 }
             }
         }
-        printf("%s: %d-%d :%s\n", jogador1, player1, player2, jogador2);
+        printf("%s: %d-%d :%s\n", jogador1, player1, player2, jogador2);//Resultado atual do jogo
 
         printf("Se deseja saír do jogo prima Y, caso contrário prima qualquer outra tecla\n");
         scanf(" %c", &leave);
