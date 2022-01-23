@@ -112,14 +112,14 @@ void print_board(int n, int m, char board[n][m], int flag)
         {
             for (int j = 0; j < n; j++)
             {
-                    if (board[i][j] == 'P' || board[i][j] == 'N' || board[i][j] == 'C' || board[i][j] == 'S')
-                    {
-                        printf("   |");
-                    }
-                    else
-                    {
-                        printf(" %c |", board[i][j]);
-                    }
+                if (board[i][j] == 'P' || board[i][j] == 'N' || board[i][j] == 'C' || board[i][j] == 'S')
+                {
+                    printf("   |");
+                }
+                else
+                {
+                    printf(" %c |", board[i][j]);
+                }
             }
             printf("\n");
         }
@@ -205,6 +205,7 @@ void init_boat(Boat *b, char type, Position xy, char dir)
             b->coord[i].pos.x = xy.x + i;
             b->coord[i].pos.y = xy.y;
         }
+        b->coord[i].afloat = 1;
     }
 }
 
@@ -281,9 +282,13 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
                         {
                             board->board[x1][j] = type;
                         }
+                        /*for (int j = 0; j < board->boats[board->numBoats].tSize; j++)
+                        {
+                            board->boats[board->numBoats].coord[j].afloat = 1;
+                        }*/
                         ret = 0;
                         board->boats[board->numBoats] = bat;
-                        board->boats[board->numBoats].afloat=typesize;
+                        board->boats[board->numBoats].afloat = typesize;
                         board->numBoatsAfloat++;
                         board->numBoats++;
                     }
@@ -307,9 +312,14 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
                         {
                             board->board[j][y1] = type;
                         }
+                        /*for(int i = 0; )
+                            for (int j = 0; j < board->boats[board->numBoats].tSize; j++)
+                            {
+                                board->boats[board->numBoats].coord[j].afloat = 1;
+                            }*/
                         ret = 0;
                         board->boats[board->numBoats] = bat;
-                        board->boats[board->numBoats].afloat=typesize;
+                        board->boats[board->numBoats].afloat = typesize;
                         board->numBoatsAfloat++;
                         board->numBoats++;
                     }
@@ -362,10 +372,9 @@ char check_sink(int x, int y, Board *board)
     //printf("%d\n", board->numBoats);
     for (int i = 0; i < board->numBoats; i++)
     {
-        //  printf("%d\n", board->boats[i].tSize);
         for (int j = 0; j < board->boats[i].tSize; j++)
         {
-            if (board->boats[i].coord[j].pos.x == x && board->boats[i].coord[j].pos.y == y && board->boats[i].coord[j].afloat == 1)
+            if (board->boats[i].coord[j].pos.x == x && board->boats[i].coord[j].pos.y == y )//&& board->boats[i].afloat == 1)
             {
                 board->boats[i].coord[j].afloat = 0;
                 board->boats[i].afloat--;
@@ -426,6 +435,7 @@ int target(int x, int y, Board *board)
         }
         else
         { //caso que acerte num barco
+
             board->board[x][y] = '*';
             hit = 1;
             check = check_sink(x, y, board);
@@ -455,7 +465,7 @@ int main(void)
     printf("Jogador 2, digite o seu nome:\n");
     scanf("%s", jogador2);
 
-    for (int turn = 0; leave =='N'; turn++)
+    for (int turn = 0; leave == 'N'; turn++)
     {
         if (turn % 2 == 0)
         {
@@ -482,7 +492,7 @@ int main(void)
         while (brd.numBoats < 6)
         {
             printf("Ainda tem a seguinte quantidade de cada tipo de barco para colocar:\n\tPorta-aviões[P]-> %d;\n\tNavios-tanque[N]-> %d;\n\tContratorpedeiros[C]-> %d;\n\tSubmarinos[S]-> %d.\n\n", p, n, c, s);
-            printf("Insira a letra inicial do barco que pretende colocar no tabuleiro:\n");            
+            printf("Insira a letra inicial do barco que pretende colocar no tabuleiro:\n");
             scanf(" %c", &type);
 
             switch (type)
@@ -749,7 +759,7 @@ int main(void)
                     player1++;
                 }
             }
-            else if(brd.numBoatsAfloat!=0&&tatakae>=40)
+            else if (brd.numBoatsAfloat != 0 && tatakae >= 40)
             {
                 if (player == 1)
                 {
@@ -762,11 +772,11 @@ int main(void)
                     player2++;
                 }
             }
-        }  
+        }
         printf("%s: %d-%d :%s\n", jogador1, player1, player2, jogador2);
 
         printf("Se deseja saír do jogo prima Y\n");
-        scanf(" %c",&leave);
+        scanf(" %c", &leave);
 
         if (leave == 'Y')
         {
