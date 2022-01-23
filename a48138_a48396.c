@@ -446,7 +446,7 @@ int target(int x, int y, Board *board)
 int main(void)
 {
     char dir,consult='n';
-    int x, y, fint;
+    int x, y, fint,exitgame;
     int flag = 1, player1 = 0, player2 = 0, player = 0;
     char type, leave = 'N', jogador1[15], jogador2[15];
 
@@ -455,6 +455,8 @@ int main(void)
     printf("Jogador 2, digite o seu nome:\n");
     scanf("%s", jogador2);
 
+    whille(exitgame==0)//O jogo continua aberto até o utilizador escolher fechá-lo
+    {
     for (int turn = 0; leave == 'N'; turn++)  //A cada jogo terminado aumenta 1 no valor turn, se turn for par o jogador 1 começa a colocar os navios,
     {                                         //se for ímpar é o jogador 2 que começa a colocar os navios 
         if (turn % 2 == 0)
@@ -786,7 +788,7 @@ int main(void)
         }
         printf("%s: %d-%d :%s\n", jogador1, player1, player2, jogador2);//Resultado atual do jogo
 
-        printf("Se deseja saír do jogo prima Y, caso contrário prima qualquer outra tecla\n");
+        printf("Se deseja saír do jogo atual prima Y, caso contrário prima qualquer outra tecla\n");
         scanf(" %c", &leave);
 
         if (leave == 'Y')
@@ -805,7 +807,10 @@ int main(void)
             }
             printf("Resultado final:\n");
             printf("%s: %d-%d :%s\n", jogador1, player1, player2, jogador2);
-        }
+            }
+    }
+    printf("Se deseja iniciar um jogo novo clique 0\ncaso queira fechar o jogo clique em qualquer outra tecla\n");
+    scanf("%d",exitgame);
     }
 
     //StateCoord xy;
