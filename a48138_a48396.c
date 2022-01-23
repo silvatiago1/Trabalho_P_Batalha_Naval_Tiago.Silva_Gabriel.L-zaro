@@ -112,14 +112,14 @@ void print_board(int n, int m, char board[n][m], int flag)
         {
             for (int j = 0; j < n; j++)
             {
-                if (board[i][j] == 'P' || board[i][j] == 'N' || board[i][j] == 'C' || board[i][j] == 'S')
-                {
-                    printf("   |");
-                }
-                else
-                {
-                    printf(" %c |", board[i][j]);
-                }
+                    if (board[i][j] == 'P' || board[i][j] == 'N' || board[i][j] == 'C' || board[i][j] == 'S')
+                    {
+                        printf("   |");
+                    }
+                    else
+                    {
+                        printf(" %c |", board[i][j]);
+                    }
             }
             printf("\n");
         }
@@ -283,6 +283,7 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
                         }
                         ret = 0;
                         board->boats[board->numBoats] = bat;
+                        board->boats[board->numBoats].afloat=typesize;
                         board->numBoatsAfloat++;
                         board->numBoats++;
                     }
@@ -308,6 +309,7 @@ int place_boat(int x1, int y1, int dir, char type, Board *board)
                         }
                         ret = 0;
                         board->boats[board->numBoats] = bat;
+                        board->boats[board->numBoats].afloat=typesize;
                         board->numBoatsAfloat++;
                         board->numBoats++;
                     }
@@ -453,7 +455,7 @@ int main(void)
     printf("Jogador 2, digite o seu nome:\n");
     scanf("%s", jogador2);
 
-    for (int turn = 0; leave == 'N'; turn++)
+    for (int turn = 0; leave =='N'; turn++)
     {
         if (turn % 2 == 0)
         {
@@ -747,7 +749,7 @@ int main(void)
                     player1++;
                 }
             }
-            else
+            else if(brd.numBoatsAfloat!=0&&tatakae>=40)
             {
                 if (player == 1)
                 {
@@ -760,11 +762,11 @@ int main(void)
                     player2++;
                 }
             }
-        }
+        }  
         printf("%s: %d-%d :%s\n", jogador1, player1, player2, jogador2);
 
         printf("Se deseja saír do jogo prima Y\n");
-        scanf("%c", &leave);
+        scanf(" %c",&leave);
 
         if (leave == 'Y')
         {
