@@ -494,8 +494,8 @@ int main(void)
                 printf("Ainda tem a seguinte quantidade de cada tipo de barco para colocar:\n\tPorta-aviões[P]-> %d;\n\tNavios-tanque[N]-> %d;\n\tContratorpedeiros[C]-> %d;\n\tSubmarinos[S]-> %d.\n\n", p, n, c, s);
                 printf("Insira a letra inicial do barco que pretende colocar no tabuleiro:\n");
                 scanf(" %c", &type);
-                printf("Se deseja saír do jogo atual prima Y, caso contrário prima qualquer outra tecla\n");
-                scanf(" %c", &leave);
+                printf("Se deseja saír do jogo atual prima Y, caso contrário prima qualquer outra tecla\n"); //Dá ao utilizador a opção de sair, caso ele queira sair dá um break e é lhe
+                scanf(" %c", &leave);                                                                  //dado a opção de voltar a recomeçar um novo jogo
                 if (leave == 'Y')
                 {
                     break;
@@ -680,7 +680,7 @@ int main(void)
                 }
                 scanf(" %c",&consult);
                 printf("Se deseja saír do jogo atual prima Y, caso contrário prima qualquer outra tecla\n");
-                scanf(" %c", &leave);
+                scanf(" %c", &leave);                   //Se o utilizador pretender deixar o jogo atual será feito um break e poderá iniciar um novo jogo caso queira
                 if (leave == 'Y')
                 {
                     break;
@@ -792,7 +792,7 @@ int main(void)
             }
         }
         printf("Se deseja iniciar um jogo novo clique 0\nCaso queira fechar o jogo clique em qualquer outra tecla\n");
-        scanf("%d", &exitgame);
+        scanf("%d", &exitgame);                            //Se o utilizador escolher 0, um novo jogo será começado, caso contrário o jogo será terminado
     }
     return 0;
 }
