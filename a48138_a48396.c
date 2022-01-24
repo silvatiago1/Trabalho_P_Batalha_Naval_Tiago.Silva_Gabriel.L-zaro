@@ -417,27 +417,35 @@ int target(int x, int y, Board *board)
 {
     int hit = -1;
     char check;
-    if (board->board[x][y] != ' ')
+    
+    if(x>=0&&x<8&&y>=0&&y<8)
     {
-        if (board->board[x][y] == 'F' || board->board[x][y] == 'A' || board->board[x][y] == '*') //Se nas coordenadas que o jogador pretende atacar estiver
-        {                                                                                        //'F' ou 'A' ou '*' devolve o valor 0, uma vez que esta posição já foi atacada anteriormente
-            hit = 0;
+        if (board->board[x][y] != ' ')
+        {
+            if (board->board[x][y] == 'F' || board->board[x][y] == 'A' || board->board[x][y] == '*') //Se nas coordenadas que o jogador pretende atacar estiver
+            {                                                                                        //'F' ou 'A' ou '*' devolve o valor 0, uma vez que esta posição já foi atacada anteriormente
+                hit = 0;
+            }
+            else
+            { //caso que acerte num barco coloca * no board nas coordenadas atacadas e devolve 1
+
+                board->board[x][y] = '*';
+                hit = 1;
+                check = check_sink(x, y, board);  //Invoca a função check_sink, se o valor que essa função retornar for diferente de 'F' e 'I', ou seja, tem coordenadas
+                if (check != 'F' && check != 'I') //válidas e se foi afundado um barco, devolve a letra do barco que foi afundado
+                {
+                    hit = typeToSize(check);
+                }
+            }
         }
         else
-        { //caso que acerte num barco coloca * no board nas coordenadas atacadas e devolve 1
-
-            board->board[x][y] = '*';
-            hit = 1;
-            check = check_sink(x, y, board);  //Invoca a função check_sink, se o valor que essa função retornar for diferente de 'F' e 'I', ou seja, tem coordenadas
-            if (check != 'F' && check != 'I') //válidas e se foi afundado um barco, devolve a letra do barco que foi afundado
-            {
-                hit = typeToSize(check);
-            }
+        {
+            board->board[x][y] = 'F'; //Caso o jogador dois não atinja nenhum barco, coloca 'F' no board nessas coordenadas
         }
     }
     else
     {
-        board->board[x][y] = 'F'; //Caso o jogador dois não atinja nenhum barco, coloca 'F' no board nessas coordenadas
+        hit=-2;
     }
     return hit;
 }
@@ -659,16 +667,16 @@ int main(void)
 
             for (int attack = 0; attack < 40 && brd.numBoatsAfloat != 0; attack++) //O ataque continua até o jogador atingir o limite de ataques ou afundar todos os barcos
             {
-                printf("Se quiser ver as posições dos barcos prima c, caso contrário prima qualquer outro botão\n\n");
-                if (consult != c) //O atacante apenas é avisado de que vai perder se ainda não tiver escolhido ver o tabuleiro
+                printf("Se quiser ver as posições dos barcos prima c, caso contrário prima qualquer outro botão menos o k\n\n");
+                if (consult != 'k') //O atacante apenas é avisado de que vai perder se ainda não tiver escolhido ver o tabuleiro
                 {
                     printf("Se o fizer perderá automaticamente!\n");
                 }
-                scanf("%c", &consult);
-
+                scanf(" %c",&consult);
+                
                 if (consult == 'c')
                 {
-                    print_board(N, M, brd.board, flag);
+                    print_board(N, M, brd.board, 1);
                     if (player == 1)
                     {
                         printf("O %s perdeu!\n", jogador2);
@@ -677,6 +685,7 @@ int main(void)
                     {
                         printf("O %s perdeu!\n", jogador1);
                     }
+                    consult='k';//O k é a variável que guarda a desistência do atacante
                 }
 
                 if (player == 1)
@@ -702,7 +711,8 @@ int main(void)
                     printf("Acertou na água!!\n");
                     break;
                 case -2:
-                    printf("Posição inválida, escolha outra!\n");
+                    printf("Posição inválida, escolha outra!\n");//Quando o atacante esolhe uma posição inválida não perde uma rodada
+                    attack--;
                     break;
                 case 0:
                     printf("Essa posição já foi atacada, escolha outra!\n");
@@ -725,7 +735,7 @@ int main(void)
                 }
                 if (brd.numBoatsAfloat == 0)
                 {
-                    if (player == 1 && consult != 'c')
+                    if (player == 1 && consult != 'k')
                     {
                         printf("O %s venceu esta rodada!!!\nParabéns!\n\n", jogador2);
                         player2++;
